@@ -7,7 +7,7 @@ import Layout from "../layouts/Layout.astro"
       <!-- Sección de Login -->
       <div class="border p-4 rounded">
         <h2 class="text-lg font-semibold mb-2">Login</h2>
-        <form action="/login" method="post" class="space-y-3">
+        <form id="login-form" action="./admin/dashboard" method="get" class="space-y-3">
           <div>
             <label for="login-username" class="block">Username</label>
             <input type="text" id="login-username" name="username" class="w-full border p-1 rounded" />
@@ -16,7 +16,7 @@ import Layout from "../layouts/Layout.astro"
             <label for="login-password" class="block">Password</label>
             <input type="password" id="login-password" name="password" class="w-full border p-1 rounded" />
           </div>
-          <a href="./admin/dashboard" class="w-full border p-2 rounded mt-2" >Login</a>
+          <button type="submit" id="login-button" class="w-full border p-2 rounded mt-2 bg-gray-300 cursor-not-allowed" disabled>Login</button>
         </form>
       </div>
 
@@ -41,4 +41,32 @@ import Layout from "../layouts/Layout.astro"
       </div>
     </div>
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const usernameInput = document.getElementById("login-username");
+      const passwordInput = document.getElementById("login-password");
+      const loginButton = document.getElementById("login-button");
+      
+      function validateLogin() {
+        const username = usernameInput.value;
+        const password = passwordInput.value;
+        const hasLetter = /[a-zA-Z]/.test(username) || /[a-zA-Z]/.test(password);
+        const hasNumber = /\d/.test(username) || /\d/.test(password);
+        
+        if (hasLetter && hasNumber) {
+          loginButton.disabled = false;
+          loginButton.classList.remove("bg-gray-300", "cursor-not-allowed");
+          loginButton.classList.add("bg-blue-500", "text-white", "cursor-pointer");
+        } else {
+          loginButton.disabled = true;
+          loginButton.classList.add("bg-gray-300", "cursor-not-allowed");
+          loginButton.classList.remove("bg-blue-500", "text-white", "cursor-pointer");
+        }
+      }
+      
+      usernameInput.addEventListener("input", validateLogin);
+      passwordInput.addEventListener("input", validateLogin);
+    });
+  </script>
 </Layout>
