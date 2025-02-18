@@ -1,12 +1,28 @@
 ---
 let companyName = "Mi Empresa";
+let workStart = "";
+let workEnd = "";
 ---
 
-<div>
-  <h2 class="text-xl font-bold">Configuración</h2>
-  <div class="mt-3">
-    <label class="block mb-1">Nombre de la Empresa:</label>
-    <input type="text" class="border p-2 w-full" bind:value={companyName} />
+<div class="bg-white shadow-md rounded p-6">
+  <h3 class="text-lg font-semibold">Configuración de la Empresa</h3>
+  <p class="text-gray-600 text-sm">Ajusta la configuración general de la empresa</p>
+
+  <div class="mt-4">
+    <label class="block text-sm font-medium">Nombre de la Empresa</label>
+    <input type="text" class="border p-2 w-full rounded mt-1" bind:value={companyName} placeholder="Ingrese el nombre de la empresa" />
   </div>
-  <button class="bg-green-500 text-white p-2 rounded mt-3 w-full">Guardar Cambios</button>
+
+  <div class="mt-4">
+    <label class="block text-sm font-medium">Horario Laboral</label>
+    <div class="flex items-center space-x-2">
+      <input type="time" class="border p-2 rounded w-24" bind:value={workStart} />
+      <span>a</span>
+      <input type="time" class="border p-2 rounded w-24" bind:value={workEnd} />
+    </div>
+  </div>
+
+  <button class="bg-black text-white p-2 rounded mt-4">
+    Guardar Cambios
+  </button>
 </div>

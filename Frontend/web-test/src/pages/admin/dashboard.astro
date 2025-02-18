@@ -10,32 +10,56 @@ import Configuracion from '../../components/dashboard/Configuracion.astro';
 
 <Layout title="Dashboard">
   <div class="bg-gray-100 font-sans flex h-screen">
+    <!-- Sidebar con botones -->
     <Sidebar />
-    <main id="content" class="flex-1 p-5">
-      <Resumen />
+
+    <!-- Contenedor principal donde se muestran los componentes -->
+    <main class="flex-1 p-5">
+      <div id="dashboard-content">
+        <!-- Por defecto, se muestra "Resumen", los demás están ocultos -->
+        <div data-tab="resumen" class="dashboard-section">
+          <Resumen />
+        </div>
+        <div data-tab="buscar" class="dashboard-section hidden">
+          <BuscarEmpleados />
+        </div>
+        <div data-tab="gestion" class="dashboard-section hidden">
+          <GestionEmpleados />
+        </div>
+        <div data-tab="reportes" class="dashboard-section hidden">
+          <Reportes />
+        </div>
+        <div data-tab="configuracion" class="dashboard-section hidden">
+          <Configuracion />
+        </div>
+      </div>
     </main>
   </div>
 
+  <!-- Script para gestionar la visualización de secciones -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const buttons = document.querySelectorAll("[data-tab]");
-      const content = document.getElementById("content");
-
-      const sections = {
-        resumen: `<div><h2 class="text-xl font-bold">Resumen</h2><p>Vista general de empleados y fichajes.</p></div>`,
-        buscar: `<div><h2 class="text-xl font-bold">Buscar Empleados</h2><p>Busca empleados por nombre, DNI o legajo.</p></div>`,
-        gestion: `<div><h2 class="text-xl font-bold">Gestión de Empleados</h2><p>Administra el personal.</p></div>`,
-        reportes: `<div><h2 class="text-xl font-bold">Reportes</h2><p>Genera informes de asistencia.</p></div>`,
-        configuracion: `<div><h2 class="text-xl font-bold">Configuración</h2><p>Cambia el nombre de la empresa.</p></div>`
-      };
-
+      // Selecciona únicamente los botones del sidebar
+      const buttons = document.querySelectorAll("[data-dashboard-tab]");
+      
       buttons.forEach(button => {
         button.addEventListener("click", () => {
-          const tab = button.dataset.tab;
-          content.innerHTML = sections[tab] || "<p>Sección no encontrada</p>";
-
-          buttons.forEach(btn => btn.classList.remove("bg-gray-200", "font-bold"));
-          button.classList.add("bg-gray-200", "font-bold");
+          const tab = button.dataset.dashboardTab;
+          
+          // Oculta todas las secciones
+          document.querySelectorAll('.dashboard-section').forEach(section => {
+            section.classList.add('hidden');
+          });
+          
+          // Muestra la sección correspondiente
+          const selectedSection = document.querySelector(`.dashboard-section[data-tab="${tab}"]`);
+          if (selectedSection) {
+            selectedSection.classList.remove('hidden');
+          }
+          
+          // Opcional: Actualiza las clases de los botones para marcar el activo
+          buttons.forEach(btn => btn.classList.remove('bg-gray-200', 'font-bold'));
+          button.classList.add('bg-gray-200', 'font-bold');
         });
       });
     });
