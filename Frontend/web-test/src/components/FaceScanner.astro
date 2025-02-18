@@ -1,18 +1,95 @@
 ---
 ---
-<div id="face-scanner">
-    <!-- Video para mostrar la cámara -->
-    <video id="video" autoplay playsinline style="max-width: 100%; border: 1px solid #ccc;"></video>
-    <script>
-      // Solicita acceso a la cámara y muestra la imagen en el video
-      navigator.mediaDevices.getUserMedia({ video: true })
-        .then(stream => {
-          const video = document.getElementById('video');
-          video.srcObject = stream;
-        })
-        .catch(error => {
-          console.error('Error al acceder a la cámara:', error);
+<div id="face-scanner" style="position: relative; display: inline-block;">
+  <!-- Video para la webcam -->
+  <video id="video" width="720" height="560" autoplay playsinline muted style="border: 1px solid #ccc;"></video>
+  <!-- Canvas para dibujar la detección -->
+  <canvas id="overlay" width="720" height="560" style="position: absolute; top: 0; left: 0;"></canvas>
+  <!-- Div para mostrar el nombre detectado -->
+  <div id="nombre" style="margin-top: 10px; font-size: 1.2em; font-weight: bold;"></div>
+</div>
+
+<script type="module">
+  // Asumimos que face-api.min.js ya se cargó en el head (desde /libs/face-api.min.js)
+  const video = document.getElementById('video');
+  const canvas = document.getElementById('overlay');
+  const nombreDiv = document.getElementById('nombre');
+
+  // Cargar los modelos desde /models
+  async function loadModels() {
+    const MODEL_URL = '/models';
+    await Promise.all([
+      faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+      faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+      faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+      faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL)
+    ]);
+  }
+
+  // Iniciar la webcam
+  async function startVideo() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: {} });
+      video.srcObject = stream;
+    } catch (error) {
+      console.error('Error al acceder a la webcam:', error);
+    }
+  }
+
+  // Función para extraer el nombre de la imagen (por ejemplo, "juan.jpg" -> "juan")
+  function extraerNombreDeImagen(url) {
+    return url.split('/').pop().split('.')[0];
+  }
+
+  // Cargar la imagen de referencia y crear el descriptor etiquetado
+  async function loadReferenceImage() {
+    const imagenUrl = '/images/juan.jpg'; // Asegúrate de que esta imagen exista en public/images
+    const img = await faceapi.fetchImage(imagenUrl);
+    const deteccion = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
+    if (!deteccion) {
+      throw new Error('No se pudo detectar el rostro en la imagen de referencia.');
+    }
+    const etiqueta = extraerNombreDeImagen(imagenUrl);
+    return new faceapi.LabeledFaceDescriptors(etiqueta, [deteccion.descriptor]);
+  }
+
+  async function main() {
+    await loadModels();
+    await startVideo();
+    const labeledDescriptor = await loadReferenceImage();
+    const faceMatcher = new faceapi.FaceMatcher(labeledDescriptor, 0.6);
+    const displaySize = { width: video.width, height: video.height };
+    faceapi.matchDimensions(canvas, displaySize);
+
+    video.addEventListener('play', () => {
+      setInterval(async () => {
+        const detecciones = await faceapi
+          .detectAllFaces(video, new faceapi.SsdMobilenetv1Options())
+          .withFaceLandmarks()
+          .withFaceDescriptors();
+
+        const resizedDetections = faceapi.resizeResults(detecciones, displaySize);
+        const context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        let nombreDetectado = '';
+
+        resizedDetections.forEach(deteccion => {
+          const bestMatch = faceMatcher.findBestMatch(deteccion.descriptor);
+          const { x, y, width, height } = deteccion.detection.box;
+          const drawBox = new faceapi.draw.DrawBox({ x, y, width, height }, { label: bestMatch.toString() });
+          drawBox.draw(canvas);
+          if (bestMatch.label !== 'unknown') {
+            nombreDetectado = bestMatch.label;
+          }
         });
-    </script>
-  </div>
-  
+
+        nombreDiv.innerText = nombreDetectado
+          ? `Persona detectada: ${nombreDetectado}`
+          : 'Persona detectada: desconocida';
+      }, 100);
+    });
+  }
+
+  main();
+</script>

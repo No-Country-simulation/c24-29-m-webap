@@ -1,8 +1,5 @@
 ---
 export const prerender = false;
-import FaceScanner from "../../components/FaceScanner.astro";
-
-// 'db' es el parámetro capturado en la URL, que puede o no estar asociado a una empresa
 const { db } = Astro.params;
 ---
 <html lang="es">
@@ -10,12 +7,172 @@ const { db } = Astro.params;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Escáner Facial {db ? `- ${db}` : ''}</title>
+    <!-- Cargamos face-api.min.js desde public/libs -->
+    <script defer src="/libs/face-api.min.js"></script>
+    <style>
+      /* Estilos para el video, canvas y texto */
+      #video {
+        border: 1px solid #ccc;
+      }
+      #overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      #scanner-container {
+        position: relative;
+        display: inline-block;
+      }
+      #nombre {
+        margin-top: 10px;
+        font-size: 1.2em;
+        font-weight: bold;
+      }
+    </style>
   </head>
   <body>
     <main class="min-h-screen flex flex-col items-center justify-center">
-      
-      <FaceScanner />
-      
+      <div id="scanner-container">
+        <!-- Video para mostrar la cámara -->
+        <video id="video" width="720" height="560" autoplay playsinline muted></video>
+        <!-- Canvas (no se dibujará ningún cuadro, pero se mantiene por si se necesita) -->
+        <canvas id="overlay" width="720" height="560"></canvas>
+      </div>
+      <!-- Div para mostrar el nombre de la persona detectada -->
+      <div id="nombre"></div>
     </main>
+
+    <script type="module">
+      // Verificamos que face-api.js esté cargado
+      if (typeof faceapi === 'undefined') {
+        console.error('face-api.js no está cargado. Revisa la ruta de la librería.');
+      } else {
+        console.log('face-api.js cargado correctamente');
+      }
+
+      const video = document.getElementById('video');
+      const canvas = document.getElementById('overlay');
+      const nombreDiv = document.getElementById('nombre');
+
+      // Inicia la cámara y espera a que el video se reproduzca
+      async function startVideo() {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: {} });
+          video.srcObject = stream;
+          console.log('Cámara iniciada');
+          await new Promise((resolve) => {
+            video.onloadedmetadata = () => {
+              console.log('Video metadata cargada');
+              resolve();
+            };
+          });
+          await video.play();
+          console.log('Video reproduciéndose');
+        } catch (error) {
+          console.error('Error al acceder a la cámara:', error);
+        }
+      }
+
+      // Función para formatear el nombre de la imagen (por ejemplo: "juan_perez.jpg" -> "Juan Perez")
+      function formatLabel(url) {
+        const filename = url.split('/').pop().split('.')[0];
+        return filename
+          .split('_')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ');
+      }
+
+      // Cargar los modelos desde /models
+      async function loadModels() {
+        const MODEL_URL = '/models';
+        console.log('Cargando modelos desde:', MODEL_URL);
+        await Promise.all([
+          faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+          faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+          faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+          faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL)
+        ]);
+        console.log('Modelos cargados');
+      }
+
+      // Cargar múltiples imágenes de referencia y obtener sus descriptores
+      async function loadReferenceImages() {
+        // Lista de rutas de imágenes de referencia
+        const referenceImages = [
+          '/images/alan_plaza.jpg',
+          '/images/nara_avila.jpg'
+          // Agrega más imágenes según necesites
+        ];
+        const labeledDescriptors = await Promise.all(
+          referenceImages.map(async (imagenUrl) => {
+            console.log('Cargando imagen de referencia:', imagenUrl);
+            const img = await faceapi.fetchImage(imagenUrl);
+            const detection = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
+            if (!detection) {
+              console.warn('No se pudo detectar el rostro en:', imagenUrl);
+              return null;
+            }
+            const label = formatLabel(imagenUrl);
+            console.log('Rostro detectado en la imagen de referencia:', label);
+            return new faceapi.LabeledFaceDescriptors(label, [detection.descriptor]);
+          })
+        );
+        return labeledDescriptors.filter(descriptor => descriptor !== null);
+      }
+
+      async function iniciarDeteccion(faceMatcher) {
+        // Ajustar las dimensiones del canvas al tamaño real del video
+        const displaySize = { width: video.videoWidth, height: video.videoHeight };
+        faceapi.matchDimensions(canvas, displaySize);
+        console.log('Iniciando detección en tiempo real...');
+        setInterval(async () => {
+          const detecciones = await faceapi
+            .detectAllFaces(video, new faceapi.SsdMobilenetv1Options())
+            .withFaceLandmarks()
+            .withFaceDescriptors();
+
+          console.log('Detecciones encontradas:', detecciones.length);
+
+          let nombreDetectado = 'desconocida';
+
+          // Recorrer las detecciones y buscar la mejor coincidencia
+          detecciones.forEach(deteccion => {
+            const bestMatch = faceMatcher.findBestMatch(deteccion.descriptor);
+            if (bestMatch.label !== 'unknown') {
+              nombreDetectado = bestMatch.label;
+            }
+          });
+
+          nombreDiv.innerText = `Persona detectada: ${nombreDetectado}`;
+          // No se dibuja el cuadro para evitar el desfasado
+          // Si lo deseas, podrías dibujar otro tipo de feedback (por ejemplo, solo el nombre sobre el video)
+        }, 100);
+      }
+
+      async function main() {
+        await startVideo();
+        await loadModels();
+        let labeledDescriptors;
+        try {
+          labeledDescriptors = await loadReferenceImages();
+        } catch (error) {
+          console.error(error);
+          return;
+        }
+        console.log('Descriptores de referencia creados:', labeledDescriptors);
+        const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.6);
+
+        if (!video.paused) {
+          iniciarDeteccion(faceMatcher);
+        } else {
+          video.addEventListener('playing', () => {
+            console.log('Evento "playing" disparado');
+            iniciarDeteccion(faceMatcher);
+          });
+        }
+      }
+
+      main();
+    </script>
   </body>
 </html>
