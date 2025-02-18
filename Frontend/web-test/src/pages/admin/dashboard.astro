@@ -1,0 +1,43 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Sidebar from "../../components/Dashboard/Sidebar.astro";
+import Resumen from "../../components/Dashboard/Resumen.astro";
+import BuscarEmpleados from "../../components/Dashboard/BuscarEmpleados.astro";
+import GestionEmpleados from "../../components/Dashboard/GestionEmpleados.astro";
+import Reportes from "../../components/Dashboard/Reportes.astro";
+import Configuracion from "../../components/Dashboard/Configuracion.astro";
+---
+
+<Layout title="Dashboard">
+  <div class="bg-gray-100 font-sans flex h-screen">
+    <Sidebar />
+    <main id="content" class="flex-1 p-5">
+      <Resumen />
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const buttons = document.querySelectorAll("[data-tab]");
+      const content = document.getElementById("content");
+
+      const sections = {
+        resumen: `<div><h2 class="text-xl font-bold">Resumen</h2><p>Vista general de empleados y fichajes.</p></div>`,
+        buscar: `<div><h2 class="text-xl font-bold">Buscar Empleados</h2><p>Busca empleados por nombre, DNI o legajo.</p></div>`,
+        gestion: `<div><h2 class="text-xl font-bold">Gestión de Empleados</h2><p>Administra el personal.</p></div>`,
+        reportes: `<div><h2 class="text-xl font-bold">Reportes</h2><p>Genera informes de asistencia.</p></div>`,
+        configuracion: `<div><h2 class="text-xl font-bold">Configuración</h2><p>Cambia el nombre de la empresa.</p></div>`
+      };
+
+      buttons.forEach(button => {
+        button.addEventListener("click", () => {
+          const tab = button.dataset.tab;
+          content.innerHTML = sections[tab] || "<p>Sección no encontrada</p>";
+
+          buttons.forEach(btn => btn.classList.remove("bg-gray-200", "font-bold"));
+          button.classList.add("bg-gray-200", "font-bold");
+        });
+      });
+    });
+  </script>
+</Layout>

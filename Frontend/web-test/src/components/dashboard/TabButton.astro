@@ -1,0 +1,12 @@
+---
+const { tab, activeTab, setActiveTab } = Astro.props;
+---
+
+<li>
+  <button 
+    class={`w-full text-left p-3 rounded ${activeTab === tab.id ? "bg-gray-200 font-bold" : ""}`} 
+    onClick={() => setActiveTab(tab.id)}
+  >
+    {tab.label}
+  </button>
+</li>

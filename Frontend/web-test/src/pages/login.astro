@@ -1,0 +1,44 @@
+---
+import Layout from "../layouts/Layout.astro"
+---
+<Layout title="Login / Registro">
+  <div class="min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-2xl grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
+      <!-- Sección de Login -->
+      <div class="border p-4 rounded">
+        <h2 class="text-lg font-semibold mb-2">Login</h2>
+        <form action="/login" method="post" class="space-y-3">
+          <div>
+            <label for="login-username" class="block">Username</label>
+            <input type="text" id="login-username" name="username" class="w-full border p-1 rounded" />
+          </div>
+          <div>
+            <label for="login-password" class="block">Password</label>
+            <input type="password" id="login-password" name="password" class="w-full border p-1 rounded" />
+          </div>
+          <a href="./admin/dashboard" class="w-full border p-2 rounded mt-2" >Login</a>
+        </form>
+      </div>
+
+      <!-- Sección de Registro -->
+      <div class="border p-4 rounded">
+        <h2 class="text-lg font-semibold mb-2">Registro</h2>
+        <form action="/register" method="post" class="space-y-3">
+          <div>
+            <label for="register-username" class="block">Username</label>
+            <input type="text" id="register-username" name="username" class="w-full border p-1 rounded" />
+          </div>
+          <div>
+            <label for="register-email" class="block">Email</label>
+            <input type="email" id="register-email" name="email" class="w-full border p-1 rounded" />
+          </div>
+          <div>
+            <label for="register-password" class="block">Password</label>
+            <input type="password" id="register-password" name="password" class="w-full border p-1 rounded" />
+          </div>
+          <button type="submit" class="w-full border p-2 rounded mt-2">Registro</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,21 @@
+---
+export const prerender = false;
+import FaceScanner from "../../components/FaceScanner.astro";
+
+// 'db' es el parámetro capturado en la URL, que puede o no estar asociado a una empresa
+const { db } = Astro.params;
+---
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Escáner Facial {db ? `- ${db}` : ''}</title>
+  </head>
+  <body>
+    <main class="min-h-screen flex flex-col items-center justify-center">
+      
+      <FaceScanner />
+      
+    </main>
+  </body>
+</html>

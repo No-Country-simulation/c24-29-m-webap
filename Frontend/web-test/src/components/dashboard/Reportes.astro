@@ -1,0 +1,29 @@
+---
+let selectedMonth = "Enero";
+let selectedYear = "2024";
+
+const months = [
+  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+];
+
+const years = ["2022", "2023", "2024", "2025"];
+---
+
+<div>
+  <h2 class="text-xl font-bold">Reportes</h2>
+  <div class="mt-3">
+    <label class="block mb-1">Mes:</label>
+    <select class="border p-2 w-full" bind:value={selectedMonth}>
+      {months.map(month => <option value={month}>{month}</option>)}
+    </select>
+  </div>
+
+  <div class="mt-3">
+    <label class="block mb-1">Año:</label>
+    <select class="border p-2 w-full" bind:value={selectedYear}>
+      {years.map(year => <option value={year}>{year}</option>)}
+    </select>
+  </div>
+
+  <button class="bg-blue-500 text-white p-2 rounded mt-3 w-full">Descargar Reporte</button>
+</div>

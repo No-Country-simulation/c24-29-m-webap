@@ -1,0 +1,18 @@
+---
+---
+<div id="face-scanner">
+    <!-- Video para mostrar la cámara -->
+    <video id="video" autoplay playsinline style="max-width: 100%; border: 1px solid #ccc;"></video>
+    <script>
+      // Solicita acceso a la cámara y muestra la imagen en el video
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          const video = document.getElementById('video');
+          video.srcObject = stream;
+        })
+        .catch(error => {
+          console.error('Error al acceder a la cámara:', error);
+        });
+    </script>
+  </div>
+  
