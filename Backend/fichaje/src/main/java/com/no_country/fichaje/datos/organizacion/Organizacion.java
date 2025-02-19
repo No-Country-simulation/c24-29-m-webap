@@ -1,10 +1,12 @@
 package com.no_country.fichaje.datos.organizacion;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.no_country.fichaje.datos.colaboradores.Colaboradores;
+import com.no_country.fichaje.datos.sectores.Sectores;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,6 +24,13 @@ public class Organizacion {
     private String siglasOrg;
     private String responsable;
     private String rubro;
+
+    @OneToOne(cascade = CascadeType.ALL)
     private Redes redes;
-    private Sectores sectores;
+
+    @OneToMany(mappedBy = "organizacion", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Sectores> sectores;
+
+    @OneToMany(mappedBy = "organizacion", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Colaboradores> colaboradores = new ArrayList<>();
 }
