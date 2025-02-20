@@ -11,12 +11,15 @@ DropdownSubmenu,
 <header class="lg:flex justify-between p-5 gap-5 mx-auto container">
    <Astronav closeOnClick>
       <div class="flex w-full lg:w-auto justify-between">
-         <a href="/" class="hover:bg-gray-100">FiCheck</a>
-         <div class="block lg:hidden">
-            <MenuIcon class="w-4 h-4 text-gray-800" />
-         </div>
+         <a href="/" class="hover:bg-gray-100 text-3xl sm:text-base hidden lg:contents">FiCheck</a>
+         <div class="flex w-full items-center justify-between lg:hidden">
+            <h1 class="font-medium text-center w-full text-4xl">FiCheck</h1>
+            <MenuIcon class="w-6 h-6 text-gray-800 " />
+          </div>
       </div>
-      <MenuItems class="hidden lg:flex">
+      
+	
+      <MenuItems class="hidden lg:flex lg:bg-white bg-gray-100">
          <ul class="flex flex-col lg:flex-row lg:gap-5">
             <!-- <li>
                <a href="#">Home</a>
@@ -221,13 +224,13 @@ DropdownSubmenu,
                   </DropdownItems>
                </Dropdown> -->
             <li>
-               <a href="/login" class="hover:bg-gray-100">Area de cliente</a>
+               <a href="/login" class="hover:bg-gray-100 hover:underline">Area de cliente</a>
             </li>
             <li>
-               <a href="#" class="hover:bg-gray-100">Precios</a>
+               <a href="#" class="hover:bg-gray-100 hover:underline">Precios</a>
             </li>
             <li>
-                <a href="#" class="hover:bg-gray-100">Reseñas</a>
+                <a href="#" class="hover:bg-gray-100 hover:underline">Reseñas</a>
              </li>
             </li>
          </ul>
