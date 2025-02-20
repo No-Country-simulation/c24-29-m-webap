@@ -22,7 +22,7 @@ public class Colaboradores {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "organizacion_id")
+    @JoinColumn(name = "organizacion_id", nullable = false)
     private Organizacion organizacion;
 
     private String nombre;
@@ -30,16 +30,17 @@ public class Colaboradores {
     private String direccion;
     private String codigo_postal;
     private String telefono;
-    private Date fecha_alta;
+    private String correoElectronico;
+    private Date fechaAlta;
 
     @Enumerated(EnumType.STRING)
     private Estado estado;
 
-    private Date fecha_baja;
-    private String razon_baja;
+    private Date fechaBaja;
+    private String razonBaja;
 
     @ManyToOne
-    @JoinColumn(name = "sector_id")
+    @JoinColumn(name = "sector_id", nullable = false)
     private Sectores sector;
 
     private String cargo;
@@ -47,14 +48,7 @@ public class Colaboradores {
     @Lob
     private byte[] frente;
 
-    @Lob
-    private byte[] perfil_derecho;
-
-    @Lob
-    private byte[] perfil_izquierdo;
-
     @OneToMany(mappedBy = "colaborador", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Asistencias> asistencias = new ArrayList<>();
-
 
 }

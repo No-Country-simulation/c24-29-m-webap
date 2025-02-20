@@ -24,8 +24,10 @@ public class Organizacion {
     private String siglasOrg;
     private String responsable;
     private String rubro;
+    private String telefono;
+    private String email;
 
-    @OneToOne(cascade = CascadeType.ALL)
+   @Embedded
     private Redes redes;
 
     @OneToMany(mappedBy = "organizacion", cascade = CascadeType.ALL, orphanRemoval = true)

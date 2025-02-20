@@ -21,18 +21,16 @@ public class Asistencias {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "organizacion_id")
+    @JoinColumn(name = "organizacion_id", nullable = false)
     private Organizacion id_org;
 
     @ManyToOne
-    @JoinColumn(name = "colaborador_id")
+    @JoinColumn(name = "colaborador_id", nullable = false)
     private Colaboradores colaborador;
 
     private Date fechaRegistro;
-
     private Date entrada;
     private Date salida;
-
     private String justificacion;
     private Boolean presente;
 
