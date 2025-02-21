@@ -26,6 +26,7 @@ public class Organizacion {
     private String rubro;
     private String telefono;
     private String email;
+    private String password;
 
    @Embedded
     private Redes redes;

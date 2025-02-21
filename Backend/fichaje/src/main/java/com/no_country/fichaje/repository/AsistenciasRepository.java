@@ -14,4 +14,6 @@ public interface AsistenciasRepository extends JpaRepository<Asistencias, Long> 
             "AND a.salida IS NULL")
     Asistencias findRegistroAbiertoByColaboradorAndFecha(@Param("colaborador") Colaboradores colaborador,
                                                          @Param("fecha") Date fecha);
+
+    Asistencias findByColaboradorAndFechaRegistro(Colaboradores colaborador, Date date);
 }
