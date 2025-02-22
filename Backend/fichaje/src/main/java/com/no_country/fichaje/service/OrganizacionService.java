@@ -18,18 +18,17 @@ public class OrganizacionService {
     private OrganizacionRepository organizacionRepository;
 
     public Sesion iniciarSesionOrganizacion(String numero, String password) {
-        // 1. Validar credenciales de la organización
+
         Organizacion org = organizacionRepository.findByNumeroAndPassword(numero, password);
         if (org == null) {
             throw new RuntimeException("Credenciales inválidas");
         }
 
-        // 2. Generar nueva sesión
         Sesion sesion = new Sesion();
         sesion.setOrganizacion(org.getId());
         sesion.setSesionKey(UUID.randomUUID().toString());
         sesion.setInico(new Date());
-        // Por ejemplo, vigencia de 8 horas:
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.HOUR, 8);

@@ -16,4 +16,5 @@ public record DtoRegOrg(
         String telefono,
         @Email
         String email,
+        @NotBlank String password,
         Redes redes){}

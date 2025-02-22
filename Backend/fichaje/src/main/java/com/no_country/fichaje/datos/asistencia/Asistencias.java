@@ -38,5 +38,6 @@ public class Asistencias {
     private Date salida;
     private String justificacion;
     private Boolean presente;
+    private Boolean esExtra;
 
 }
