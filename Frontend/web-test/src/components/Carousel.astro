@@ -1,0 +1,104 @@
+---
+const reviews = [
+//   { name: "Juan Pérez", text: "Excelente servicio, muy recomendable.", img: "../../public/images/" },
+  { name: "Nara Avila", text: "ha mejorado mucho la eficiencia en nuestra empresa.", img: "../../public/images/nara_avila.jpg" },
+  { name: "Emanuel Peracchia", text: "Me ahorra mucho tiempo en la gestión de horarios.", img: "../../public/images/emanuel_peracchia.jpg" },
+  { name: "Nara Avila", text: "lo recomiendo al 100%.", img: "../../public/images/nara_avila.jpg" },
+  { name: "Alan Plaza", text: "Su plataforma es muy intuitiva.", img: "../../public/images/alan_plaza.jpg" },
+  { name: "Nara Avila", text: "Me encantó la atención y el producto.", img: "../../public/images/nara_avila.jpg" },
+  { name: "Alan Plaza", text: "ha mejorado nuestro control de asistencia en obra, resolviendo problemas que otros sistemas no pudieron.", img: "../../public/images/alan_plaza.jpg" },
+  { name: "Emanuel Peracchia", text: "Todo perfecto, volveré a comprar.", img: "../../public/images/emanuel_peracchia.jpg" },
+  { name: "Alan Plaza", text: "Es fácil de manejar y los informes que ofrece son muy útiles.", img: "../../public/images/alan_plaza.jpg" },
+  { name: "Emanuel Peracchia", text: "se ajusta a las necesidades de nuestra empresa.", img: "../../public/images/emanuel_peracchia.jpg" },
+];
+
+
+// Rellenar para evitar espacios vacíos
+const minReviews = 8; // Mínimo de reviews para evitar espacios vacíos
+const repeatTimes = Math.ceil(minReviews / reviews.length);
+const repeatedReviews = Array(repeatTimes).fill(reviews).flat();
+---
+
+<div class="relative overflow-hidden w-full max-w-7xl mx-auto">
+  <div class="carousel-wrapper">
+    <div class="carousel-track">
+      {repeatedReviews.map((review, index) => (
+        <div class="carousel-item" key={index}>
+          <div class="review-card">
+            <img src={review.img} alt={review.name} class="review-img" />
+            <p class="review-text">{review.text}</p>
+            <h3 class="review-name">{review.name}</h3>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+.carousel-wrapper {
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+}
+
+.carousel-track {
+  display: flex;
+  animation: scroll 20s linear infinite;
+  min-width: 100%;
+}
+
+.carousel-item {
+  flex-shrink: 0;
+  width: 18rem; /* 72 (w-72) */
+  padding: 1rem; /* p-4 */
+}
+
+.review-card {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  max-width: 18rem; /* Para que el contenido no se expanda */
+}
+
+.review-text {
+  font-size: 0.875rem;
+  color: #4a5568;
+  max-height: 3.5rem; /* Limita la altura del texto */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Máximo 3 líneas */
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+}
+
+.review-img {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  object-fit: cover;
+  aspect-ratio: 1;
+  margin: 0 auto 0.5rem auto;
+}
+
+.review-name {
+  font-size: 1.125rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+/* Animación constante sin importar la cantidad de items */
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+</style>
