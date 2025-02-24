@@ -25,7 +25,7 @@ public class OrganizacionService {
         }
 
         Sesion sesion = new Sesion();
-        sesion.setOrganizacion(org.getId());
+        sesion.setOrganizacion(org);
         sesion.setSesionKey(UUID.randomUUID().toString());
         sesion.setInico(new Date());
 

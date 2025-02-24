@@ -1,6 +1,8 @@
 package com.no_country.fichaje.controller;
 
 import com.no_country.fichaje.ValidacionExeption;
+import com.no_country.fichaje.datos.colaboradores.Colaboradores;
+import com.no_country.fichaje.datos.colaboradores.DtoRegColab;
 import com.no_country.fichaje.datos.organizacion.DtoRegOrg;
 import com.no_country.fichaje.datos.organizacion.Organizacion;
 import com.no_country.fichaje.service.RegistroService;
@@ -33,4 +35,23 @@ public class RegistroOrgController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Ocurrio un error inesperado" + e.getMessage()));
         }
     }
+
+
+    @PostMapping("/colaboradores")
+    @Transactional
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Map<String, String>> regColab(@RequestBody @Valid DtoRegColab regColab){
+        try {
+            Colaboradores colaboradores = registroService.regColaboradores(regColab);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(Map.of("mensaje", "Colaborador Registrado Exitosamente"));
+        }catch (ValidacionExeption e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", e.getMessage()));
+        }catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Ocurrio un error inesperado" + e.getMessage()));
+        }
+
+
+    }
+
 }
