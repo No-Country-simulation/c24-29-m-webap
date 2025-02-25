@@ -16,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/org-reg")
-public class RegistroOrgController {
+public class RegistroController {
 
     @Autowired
     public RegistroService registroService;
