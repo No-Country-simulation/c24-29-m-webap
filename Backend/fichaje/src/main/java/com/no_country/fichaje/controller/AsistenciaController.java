@@ -2,7 +2,6 @@ package com.no_country.fichaje.controller;
 
 import com.no_country.fichaje.datos.asistencia.AsistenciaDTO;
 import com.no_country.fichaje.datos.asistencia.Asistencias;
-import com.no_country.fichaje.datos.asistencia.CompareDTO;
 import com.no_country.fichaje.service.AsistenciaService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
