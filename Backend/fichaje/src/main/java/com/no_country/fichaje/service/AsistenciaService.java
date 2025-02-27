@@ -33,7 +33,7 @@ public class AsistenciaService {
     public Mono<Map<String,?>> reconocimiento(byte[] imagenCapturada) {
 
         String captura = CompreFaceService.encodeToBase64(imagenCapturada);
-        String apiKey = "4a01ad25-1662-4917-b6b4-b6ee2bfd98b2";
+        String apiKey = "";
 
         List<Colaboradores> colaboradores = colaboradorRepository.findAll();
         List<String> imagenes = colaboradores.stream()
