@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class AsistenciaDTO {
 private String sesionKey;
-private Long colaboradorId;
-private byte[] imagenCapturada;
+private Long organizacionId;
+private String imagenCapturada;
 }

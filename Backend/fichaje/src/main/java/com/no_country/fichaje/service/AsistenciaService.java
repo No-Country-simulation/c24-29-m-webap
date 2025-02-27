@@ -1,6 +1,5 @@
 package com.no_country.fichaje.service;
 
-
 import com.no_country.fichaje.datos.colaboradores.Colaboradores;
 import com.no_country.fichaje.datos.sesion.Sesion;
 import com.no_country.fichaje.repository.AsistenciasRepository;
@@ -26,20 +25,19 @@ public class AsistenciaService {
     @Autowired
     private CompreFaceService compreFaceService;
 
-    public Sesion inicioYFinSesion(byte[] imagenCapturada) {
+    public Sesion inicioYFinSesion(String imagenCapturada) {
         return null;
     }
 
-    public Mono<Map<String,?>> reconocimiento(byte[] imagenCapturada) {
+    public Mono<Map<String,?>> reconocimiento(String imagenCapturada) {
 
-        String captura = CompreFaceService.encodeToBase64(imagenCapturada);
         String apiKey = "";
 
         List<Colaboradores> colaboradores = colaboradorRepository.findAll();
         List<String> imagenes = colaboradores.stream()
                 .map(colaborador -> {
                     if (colaborador.getFrente() != null) {
-                        return Base64.getEncoder().encodeToString(colaborador.getFrente());
+                        return colaborador.getFrente();
                     }
                     return null;
                 })
@@ -49,7 +47,7 @@ public class AsistenciaService {
         if (imagenes.isEmpty()) {
             return Mono.just(Map.of("mensaje", "No hay imágenes de colaboradores para comparar"));
         }
-        return compreFaceService.detectFace(apiKey, captura, imagenes)
+        return compreFaceService.detectFace(apiKey, imagenCapturada, imagenes)
                 .flatMap(response -> {
                     if (response != null && response.containsKey("result")) {
                         List<Map<String, Object>> resultados = (List<Map<String, Object>>) response.get("result");

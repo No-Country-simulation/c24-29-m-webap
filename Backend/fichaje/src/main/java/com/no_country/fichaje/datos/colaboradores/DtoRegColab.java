@@ -16,6 +16,6 @@ public record DtoRegColab(
         Long organizacionId,
         Long sectorId,
         String cargo,
-        byte[] frente
+        String frente
 ) {
 }

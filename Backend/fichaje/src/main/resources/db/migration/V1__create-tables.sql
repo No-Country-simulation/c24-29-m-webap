@@ -45,7 +45,7 @@ CREATE TABLE colaboradores (
     razon_baja TEXT,
     sector_id BIGINT NOT NULL,
     cargo VARCHAR(255),
-    frente LONGBLOB,
+    frente LONGTEXT,
     FOREIGN KEY (organizacion_id) REFERENCES organizacion(id) ON DELETE CASCADE,
     FOREIGN KEY (sector_id) REFERENCES sectores(id) ON DELETE SET NULL
 );

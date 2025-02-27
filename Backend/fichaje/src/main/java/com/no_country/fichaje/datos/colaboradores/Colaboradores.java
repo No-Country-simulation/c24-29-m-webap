@@ -46,7 +46,7 @@ public class Colaboradores {
     private String cargo;
 
     @Lob
-    private byte[] frente;
+    private String frente;
 
     @OneToMany(mappedBy = "colaborador", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Asistencias> asistencias = new ArrayList<>();

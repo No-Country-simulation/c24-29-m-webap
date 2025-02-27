@@ -4,8 +4,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-
-import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +27,5 @@ private final WebClient webClient;
                 .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
                 .onErrorResume(e -> Mono.just(Map.of("error", "Error en la llamada a CompreFace: " + e.getMessage())));
     }
-    public static String encodeToBase64(byte[] imageBytes) {
-        return Base64.getEncoder().encodeToString(imageBytes);
-    }
+
 }
