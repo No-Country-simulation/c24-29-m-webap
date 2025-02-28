@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api")
@@ -39,7 +40,7 @@ public class LoginController {
     @ResponseStatus
     public ResponseEntity<?> loginColaboradores(@RequestBody AsistenciaDTO asistenciaDTO){
         try {
-            Sesion sesion = asistenciaService.inicioYFinSesion(asistenciaDTO.getImagenCapturada());
+            Mono sesion = asistenciaService.reconocimiento(asistenciaDTO.getImagenCapturada());
 
             return ResponseEntity.ok(sesion);
         } catch (Exception e){

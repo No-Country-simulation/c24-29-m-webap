@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import java.util.*;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Value;
 
 @Service
 public class AsistenciaService {
@@ -28,10 +29,10 @@ public class AsistenciaService {
     public Sesion inicioYFinSesion(String imagenCapturada) {
         return null;
     }
+    @Value("${api.key}")
+    private String apiKey;
 
     public Mono<Map<String,?>> reconocimiento(String imagenCapturada) {
-
-        String apiKey = "";
 
         List<Colaboradores> colaboradores = colaboradorRepository.findAll();
         List<String> imagenes = colaboradores.stream()
