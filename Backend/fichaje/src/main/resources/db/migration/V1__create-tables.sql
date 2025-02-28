@@ -43,11 +43,12 @@ CREATE TABLE colaboradores (
     estado ENUM('ACTIVO', 'VACACIONES', 'BAJA'),
     fecha_baja TIMESTAMP,
     razon_baja TEXT,
-    sector_id BIGINT NOT NULL,
+    sector_id BIGINT NULL,
     cargo VARCHAR(255),
     frente LONGTEXT,
     FOREIGN KEY (organizacion_id) REFERENCES organizacion(id) ON DELETE CASCADE,
-    FOREIGN KEY (sector_id) REFERENCES sectores(id) ON DELETE SET NULL
+    FOREIGN KEY (sector_id) REFERENCES
+    sectores(id) ON DELETE SET NULL
 );
 
 CREATE TABLE asistencias (
@@ -55,12 +56,12 @@ CREATE TABLE asistencias (
     organizacion_id BIGINT NOT NULL,
     colaborador_id BIGINT NOT NULL,
     sesion_id BIGINT,
-    fecha_registro NOT NULL DEFAULT (CURRENT_DATE),
+    fecha_registro DATE NOT NULL,
     entrada TIMESTAMP NULL DEFAULT NULL,
     salida TIMESTAMP NULL DEFAULT NULL,
     justificacion TEXT NULL,
     presente BOOLEAN NOT NULL DEFAULT FALSE,
-    es_extra BOOLEAN NOT NULL DEFAULT (DAYWEEK(CURRENT_DATE) IN (1,7)),
+    es_extra BOOLEAN NOT NULL DEFAULT (DAYOFWEEK(CURRENT_DATE) IN (1,7)),
     FOREIGN KEY (organizacion_id) REFERENCES organizacion(id) ON DELETE CASCADE,
     FOREIGN KEY (colaborador_id) REFERENCES colaboradores(id) ON DELETE CASCADE,
     FOREIGN KEY (sesion_id) REFERENCES sesion(id) ON DELETE SET NULL
