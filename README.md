@@ -4,10 +4,10 @@
 
 ## *Equipo: C24 - 29 - Mañana - WebApp*
 
-# *Team Leader: Betina Daniela Estanga*
+ **Team Leader: Betina Daniela Estanga**
 
 
-# **COLABORADORES**
+### **COLABORADORES**
 
 ✔️Emanuel Peracchia / BACKEND / JAVA SPRINTBOOT / JAVA 17 / SPRINTBOOT 3 / SECURITY 6.4.3 MAVEN / HIBERNATES.
 
