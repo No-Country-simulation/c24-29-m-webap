@@ -38,12 +38,7 @@ El proceso de fichaje facial se realiza mediante los siguientes pasos:
 3. **Reconocimiento Facial y Verificación:** Identifica y verifica la identidad de los empleados al momento de fichar.
 4. **Registro de Fichajes (Entrada/Salida):** Guarda automáticamente la hora y el tipo de fichaje.
 5. **Generación de Reportes Básicos:** Proporciona reportes con información sobre los fichajes.
-
----
-
-## 🧑‍💻 Rol del Tester QA
-### 👩‍🔬 Nara Belén Avila Luquez
-
+   
 ---
 
 ## 🧪 Tipos de Pruebas a Realizar
@@ -71,3 +66,4 @@ El proceso de fichaje facial se realiza mediante los siguientes pasos:
 
 ---
 
+📌 GitHub: [github.com/Nara1989AvilaLuquez](https://github.com/Nara1989AvilaLuquez)
