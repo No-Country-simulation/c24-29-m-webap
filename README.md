@@ -3,6 +3,7 @@
 ## 🚀 PROYECTO : **FICKECK**
 
 ## *Equipo: C24 - 29 - Mañana - WebApp*
+### **COHORTE**
 
  **Team Leader: Betina Daniela Estanga**
 
