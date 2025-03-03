@@ -16,9 +16,9 @@ Facilitar el registro de entrada y salida de personas mediante el reconocimiento
 
 ## 🤖 ¿Qué es el Fichaje Facial?
 El proceso de fichaje facial se realiza mediante los siguientes pasos:
-1. 📷 **Captura de imagen:** La cámara toma una imagen del rostro de la persona.
-2. 🧠 **Reconocimiento facial:** El software identifica y verifica la identidad de la persona.
-3. ⏱️ **Registro de hora:** Se almacena la hora exacta del fichaje (entrada o salida).
+1.  **Captura de imagen:** La cámara toma una imagen del rostro de la persona.
+2.  **Reconocimiento facial:** El software identifica y verifica la identidad de la persona.
+3.  **Registro de hora:** Se almacena la hora exacta del fichaje (entrada o salida).
 
 ### ✅ Ventajas del Fichaje Facial
 - **📌 Precisión:** Alta tasa de acierto en la identificación de personas.
@@ -53,11 +53,11 @@ El proceso de fichaje facial se realiza mediante los siguientes pasos:
 ---
 
 ## 🛠️ Herramientas de Prueba
-- 📝 **TestRail:** Para la gestión de pruebas.
-- 🤖 **Selenium:** Para la automatización de pruebas.
-- 🔵 **Postman**
-- 🟠 **SOUP UI**
-- ⚡ **JMeter:** Para el análisis de rendimiento.
+-  **TestRail:** Para la gestión de pruebas.
+-  **Selenium:** Para la automatización de pruebas.
+-  **Postman**
+-  **SOUP UI**
+-  **JMeter:** Para el análisis de rendimiento.
 
 ---
 
