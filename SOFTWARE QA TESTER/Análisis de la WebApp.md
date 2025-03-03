@@ -55,6 +55,8 @@ El proceso de fichaje facial se realiza mediante los siguientes pasos:
 ## 🛠️ Herramientas de Prueba
 - 📝 **TestRail:** Para la gestión de pruebas.
 - 🤖 **Selenium:** Para la automatización de pruebas.
+- 🔵 **Postman**
+- 🟠 **SOUP UI**
 - ⚡ **JMeter:** Para el análisis de rendimiento.
 
 ---
