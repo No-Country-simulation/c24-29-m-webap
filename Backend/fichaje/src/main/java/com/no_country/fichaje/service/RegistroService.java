@@ -12,7 +12,9 @@ import com.no_country.fichaje.repository.ColaboradorRepository;
 import com.no_country.fichaje.repository.OrganizacionRepository;
 import com.no_country.fichaje.repository.SectoresRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RegistroService {
 
     @Autowired
@@ -44,7 +46,7 @@ public class RegistroService {
         Redes redes = new Redes(
                 registrar.redes() != null ? registrar.redes().getInstagram() : null,
                 registrar.redes() != null ? registrar.redes().getFacebook() : null,
-                registrar.redes() != null ? registrar.redes().getX() : null
+                registrar.redes() != null ? registrar.redes().getTwitter() : null
         );
 
         nuevaOrganizacion.setRedes(redes);

@@ -4,17 +4,10 @@ import com.no_country.fichaje.datos.sesion.Sesion;
 import com.no_country.fichaje.datos.colaboradores.Colaboradores;
 import com.no_country.fichaje.datos.organizacion.Organizacion;
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.util.Date;
-
+import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@EqualsAndHashCode(of = "id")
-@AllArgsConstructor
 public class Asistencias {
 
     @Id
@@ -33,11 +26,75 @@ public class Asistencias {
     @JoinColumn(name = "sesion_id")
     private Sesion sesion;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRegistro;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date entrada;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date salida;
+
     private String justificacion;
     private Boolean presente;
     private Boolean esExtra;
+
+    public Asistencias() { }
+
+    public Asistencias(Long id, Organizacion organizacion, Colaboradores colaborador, Sesion sesion,
+                       Date fechaRegistro, Date entrada, Date salida, String justificacion,
+                       Boolean presente, Boolean esExtra) {
+        this.id = id;
+        this.organizacion = organizacion;
+        this.colaborador = colaborador;
+        this.sesion = sesion;
+        this.fechaRegistro = fechaRegistro;
+        this.entrada = entrada;
+        this.salida = salida;
+        this.justificacion = justificacion;
+        this.presente = presente;
+        this.esExtra = esExtra;
+    }
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public Organizacion getOrganizacion() { return organizacion; }
+    public void setOrganizacion(Organizacion organizacion) { this.organizacion = organizacion; }
+
+    public Colaboradores getColaborador() { return colaborador; }
+    public void setColaborador(Colaboradores colaborador) { this.colaborador = colaborador; }
+
+    public Sesion getSesion() { return sesion; }
+    public void setSesion(Sesion sesion) { this.sesion = sesion; }
+
+    public Date getFechaRegistro() { return fechaRegistro; }
+    public void setFechaRegistro(Date fechaRegistro) { this.fechaRegistro = fechaRegistro; }
+
+    public Date getEntrada() { return entrada; }
+    public void setEntrada(Date entrada) { this.entrada = entrada; }
+
+    public Date getSalida() { return salida; }
+    public void setSalida(Date salida) { this.salida = salida; }
+
+    public String getJustificacion() { return justificacion; }
+    public void setJustificacion(String justificacion) { this.justificacion = justificacion; }
+
+    public Boolean getPresente() { return presente; }
+    public void setPresente(Boolean presente) { this.presente = presente; }
+
+    public Boolean getEsExtra() { return esExtra; }
+    public void setEsExtra(Boolean esExtra) { this.esExtra = esExtra; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Asistencias)) return false;
+        Asistencias that = (Asistencias) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
 }

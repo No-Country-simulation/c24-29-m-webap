@@ -5,11 +5,12 @@ import com.no_country.fichaje.datos.organizacion.Organizacion;
 import com.no_country.fichaje.repository.OrganizacionRepository;
 import com.no_country.fichaje.repository.SesionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.stereotype.Service;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
+@Service
 public class OrganizacionService {
     @Autowired
    private SesionRepository sesionRepository;
@@ -17,7 +18,7 @@ public class OrganizacionService {
     @Autowired
     private OrganizacionRepository organizacionRepository;
 
-    public Sesion iniciarSesionOrganizacion(String numero, String password) {
+    public Sesion iniciarSesionOrganizacion(Integer numero, String password) {
 
         Organizacion org = organizacionRepository.findByNumeroAndPassword(numero, password);
         if (org == null) {

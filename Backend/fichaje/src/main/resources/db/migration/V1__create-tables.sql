@@ -1,54 +1,60 @@
+
 CREATE TABLE organizacion (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(255) NOT NULL,
-    numero INT NOT NULL UNIQUE,
-    siglas_org VARCHAR(255),
-    responsable VARCHAR(255) NOT NULL,
+    nombre VARCHAR(255),
+    numero INT,
+    siglasOrg VARCHAR(100),
+    responsable VARCHAR(255),
     rubro VARCHAR(255),
-    telefono VARCHAR(20),
-    email VARCHAR(255) UNIQUE,
+    telefono VARCHAR(50),
+    email VARCHAR(255),
     password VARCHAR(255),
+
     instagram VARCHAR(255),
     facebook VARCHAR(255),
-    x VARCHAR(255)
+    twitter VARCHAR(255)
 );
 
 CREATE TABLE sectores (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(255) NOT NULL,
-    tareas TEXT,
+    nombre VARCHAR(255),
+    tareas VARCHAR(255),
     organizacion_id BIGINT NOT NULL,
-    FOREIGN KEY (organizacion_id) REFERENCES organizacion(id) ON DELETE CASCADE
-);
-
-CREATE TABLE sesion (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    organizacion_id BIGINT NOT NULL,
-    sesion_key VARCHAR(255) NOT NULL UNIQUE,
-    inico TIMESTAMP,
-    fin TIMESTAMP,
-    FOREIGN KEY (organizacion_id) REFERENCES organizacion(id) ON DELETE CASCADE
+    CONSTRAINT fk_sectores_organizacion
+        FOREIGN KEY (organizacion_id) REFERENCES organizacion(id)
 );
 
 CREATE TABLE colaboradores (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     organizacion_id BIGINT NOT NULL,
-    nombre VARCHAR(255) NOT NULL,
-    dni INT NOT NULL UNIQUE,
+    nombre VARCHAR(255),
+    dni INT,
     direccion VARCHAR(255),
     codigo_postal VARCHAR(20),
-    telefono VARCHAR(20),
-    correo_electronico VARCHAR(255) UNIQUE,
-    fecha_alta TIMESTAMP,
-    estado ENUM('ACTIVO', 'VACACIONES', 'BAJA'),
-    fecha_baja TIMESTAMP,
-    razon_baja TEXT,
-    sector_id BIGINT NULL,
+    telefono VARCHAR(50),
+    correoElectronico VARCHAR(255),
+    fechaAlta DATETIME,
+    estado VARCHAR(50),
+    fechaBaja DATETIME,
+    razonBaja VARCHAR(255),
+    sector_id BIGINT NOT NULL,
     cargo VARCHAR(255),
-    frente LONGTEXT,
-    FOREIGN KEY (organizacion_id) REFERENCES organizacion(id) ON DELETE CASCADE,
-    FOREIGN KEY (sector_id) REFERENCES
-    sectores(id) ON DELETE SET NULL
+    frente TEXT,
+    CONSTRAINT fk_colaboradores_organizacion
+        FOREIGN KEY (organizacion_id) REFERENCES organizacion(id),
+    CONSTRAINT fk_colaboradores_sectores
+        FOREIGN KEY (sector_id) REFERENCES sectores(id)
+);
+
+CREATE TABLE sesion (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    organizacion_id BIGINT NOT NULL,
+    sesionKey VARCHAR(255) NOT NULL,
+    inico DATETIME,
+    fin DATETIME,
+    CONSTRAINT uq_sesionKey UNIQUE (sesionKey),
+    CONSTRAINT fk_sesion_organizacion
+        FOREIGN KEY (organizacion_id) REFERENCES organizacion(id)
 );
 
 CREATE TABLE asistencias (
@@ -56,13 +62,16 @@ CREATE TABLE asistencias (
     organizacion_id BIGINT NOT NULL,
     colaborador_id BIGINT NOT NULL,
     sesion_id BIGINT,
-    fecha_registro DATE NOT NULL,
-    entrada TIMESTAMP NULL DEFAULT NULL,
-    salida TIMESTAMP NULL DEFAULT NULL,
-    justificacion TEXT NULL,
-    presente BOOLEAN NOT NULL DEFAULT FALSE,
-    es_extra BOOLEAN NOT NULL DEFAULT (DAYOFWEEK(CURRENT_DATE) IN (1,7)),
-    FOREIGN KEY (organizacion_id) REFERENCES organizacion(id) ON DELETE CASCADE,
-    FOREIGN KEY (colaborador_id) REFERENCES colaboradores(id) ON DELETE CASCADE,
-    FOREIGN KEY (sesion_id) REFERENCES sesion(id) ON DELETE SET NULL
+    fechaRegistro DATETIME,
+    entrada DATETIME,
+    salida DATETIME,
+    justificacion VARCHAR(255),
+    presente BOOLEAN,
+    esExtra BOOLEAN,
+    CONSTRAINT fk_asistencias_organizacion
+        FOREIGN KEY (organizacion_id) REFERENCES organizacion(id),
+    CONSTRAINT fk_asistencias_colaborador
+        FOREIGN KEY (colaborador_id) REFERENCES colaboradores(id),
+    CONSTRAINT fk_asistencias_sesion
+        FOREIGN KEY (sesion_id) REFERENCES sesion(id)
 );
