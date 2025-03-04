@@ -1,6 +1,8 @@
 # 🏢 **Sistema de Fichaje Online** ⏳📌   
 
 ## 🚀 PROYECTO : **FICKECK**
+![1000467556](https://github.com/user-attachments/assets/03268dde-b2ab-4984-8d55-d3132c528187)
+
 
 🌐 https://ficheck.vercel.app/
 -
