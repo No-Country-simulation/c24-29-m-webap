@@ -34,12 +34,12 @@ CREATE TABLE colaboradores (
     telefono VARCHAR(50),
     correoElectronico VARCHAR(255),
     fechaAlta DATETIME,
-    estado VARCHAR(50),
-    fechaBaja DATETIME,
-    razonBaja VARCHAR(255),
+    estado ENUM('Activo', 'Inactivo', 'Baja') DEFAULT 'Activo',
+    fechaBaja DATETIME null,
+    razonBaja VARCHAR(255) null,
     sector_id BIGINT NOT NULL,
     cargo VARCHAR(255),
-    frente TEXT,
+    frente LONGTEXT,
     CONSTRAINT fk_colaboradores_organizacion
         FOREIGN KEY (organizacion_id) REFERENCES organizacion(id),
     CONSTRAINT fk_colaboradores_sectores

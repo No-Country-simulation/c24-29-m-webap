@@ -15,7 +15,7 @@ import java.io.ByteArrayOutputStream;
 public class QrController {
 
     @GetMapping(value = "/generate", produces = MediaType.IMAGE_PNG_VALUE)
-    public ResponseEntity<byte[]> generateQrCode(@RequestParam String sesionKey, @RequestParam Long organizacionId) {
+    public ResponseEntity<byte[]> generateQrCode(@RequestParam Long sesionKey, @RequestParam Long organizacionId) {
         try {
             String url = "https://miapp.com/login?sesionKey=" + sesionKey + "&organizacionId=" + organizacionId;
 
