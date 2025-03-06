@@ -23,35 +23,33 @@ public class RegistroController {
 
     @PostMapping
     @Transactional
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Map<String, String>> regOrganizacion(@RequestBody @Valid DtoRegOrg registrar) {
         try {
             Organizacion organizacion = registroService.regOrg(registrar);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(Map.of("mensaje", "Organización registrada exitosamente"));
         } catch (ValidacionExeption e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", e.getMessage()));
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Ocurrio un error inesperado" + e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Ocurrio un error inesperado" + e.getMessage()));
         }
     }
 
-
     @PostMapping("/colaboradores")
     @Transactional
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Map<String, String>> regColab(@RequestBody @Valid DtoRegColab regColab){
         try {
             Colaboradores colaboradores = registroService.regColaboradores(regColab);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(Map.of("mensaje", "Colaborador Registrado Exitosamente"));
         }catch (ValidacionExeption e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", e.getMessage()));
         }catch (RuntimeException e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Ocurrio un error inesperado" + e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Ocurrio un error inesperado" + e.getMessage()));
         }
-
-
     }
-
 }

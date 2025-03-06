@@ -2,10 +2,8 @@ package com.no_country.fichaje.service;
 
 import com.no_country.fichaje.datos.asistencia.Asistencias;
 import com.no_country.fichaje.datos.colaboradores.Colaboradores;
-import com.no_country.fichaje.datos.sesion.Sesion;
 import com.no_country.fichaje.repository.AsistenciasRepository;
 import com.no_country.fichaje.repository.ColaboradorRepository;
-import com.no_country.fichaje.repository.SesionRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,20 +20,12 @@ public class AsistenciaService {
     private ColaboradorRepository colaboradorRepository;
 
     @Autowired
-    private SesionRepository sesionRepository;
-
-    @Autowired
     private CompreFaceService compreFaceService;
 
     @Value("${api.key}")
     private String apiKey;
 
-    public Optional<Sesion> validarSesionOrganizacion(Long organizacionId, String sesionKey) {
-        return sesionRepository.findByOrganizacionIdAndSesionKeyAndFinIsNull(organizacionId, sesionKey);
-    }
-
     public Optional<Colaboradores> reconocerColaborador(String imagenCapturada, Long organizacionId) {
-
         List<Colaboradores> colaboradores = colaboradorRepository.findByOrganizacionId(organizacionId);
         List<String> imagenes = colaboradores.stream()
                 .map(Colaboradores::getFrente)
@@ -67,31 +57,42 @@ public class AsistenciaService {
         return Optional.ofNullable(colaborador);
     }
 
-    public boolean tieneAsistenciaActiva(Colaboradores colaborador, Sesion sesion) {
-        return asistenciasRepository.findRegistroAbiertoByColaboradorAndSesion(colaborador, sesion).isPresent();
+    public boolean tieneAsistenciaActiva(Colaboradores colaborador) {
+        return asistenciasRepository.findRegistroAbiertoByColaborador(colaborador).isPresent();
     }
 
     @Transactional
-    public void registrarEntrada(Colaboradores colaborador, Sesion sesion) {
+    public void registrarEntrada(Colaboradores colaborador) {
         Date fechaRegistro = new Date();
+        List<Asistencias> registrosHoy = asistenciasRepository.findByColaboradorAndFecha(colaborador, fechaRegistro);
+
         Asistencias nuevaAsistencia = new Asistencias();
         nuevaAsistencia.setColaborador(colaborador);
         nuevaAsistencia.setOrganizacion(colaborador.getOrganizacion());
-        nuevaAsistencia.setSesion(sesion);
         nuevaAsistencia.setFechaRegistro(fechaRegistro);
         nuevaAsistencia.setEntrada(fechaRegistro);
+
+        if(registrosHoy.isEmpty()){
+            nuevaAsistencia.setPresente(true);
+            nuevaAsistencia.setEsExtra(false);
+        } else{
+            nuevaAsistencia.setPresente(false);
+            nuevaAsistencia.setEsExtra(true);
+        }
         asistenciasRepository.save(nuevaAsistencia);
     }
 
     @Transactional
-    public void registrarSalida(Colaboradores colaborador, Sesion sesion) {
+    public void registrarSalida(Colaboradores colaborador) {
         Date fechaSalida = new Date();
-        Asistencias asistencia = asistenciasRepository.findRegistroAbiertoByColaboradorAndSesion(colaborador, sesion)
+        Asistencias asistencia = asistenciasRepository.findRegistroAbiertoByColaborador(colaborador)
                 .orElseThrow(() -> new RuntimeException("No se encontró asistencia activa para el colaborador"));
         asistencia.setSalida(fechaSalida);
+        asistencia.setPresente(false);
         asistenciasRepository.save(asistencia);
     }
 }
+
 
 
 

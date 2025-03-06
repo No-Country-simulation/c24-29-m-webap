@@ -1,6 +1,5 @@
 package com.no_country.fichaje.datos.asistencia;
 
-import com.no_country.fichaje.datos.sesion.Sesion;
 import com.no_country.fichaje.datos.colaboradores.Colaboradores;
 import com.no_country.fichaje.datos.organizacion.Organizacion;
 import jakarta.persistence.*;
@@ -22,30 +21,27 @@ public class Asistencias {
     @JoinColumn(name = "colaborador_id", nullable = false)
     private Colaboradores colaborador;
 
-    @ManyToOne
-    @JoinColumn(name = "sesion_id")
-    private Sesion sesion;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRegistro;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date entrada;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date salida;
 
     private String justificacion;
-    private Boolean presente;
-    private Boolean esExtra;
+    private Boolean presente = false;
+    private Boolean esExtra = false;
 
     public Asistencias() { }
 
-    public Asistencias(Long id, Organizacion organizacion, Colaboradores colaborador, Sesion sesion,
-                       Date fechaRegistro, Date entrada, Date salida, String justificacion,
+    public Asistencias(Long id, Organizacion organizacion, Colaboradores colaborador,                      Date fechaRegistro, Date entrada, Date salida, String justificacion,
                        Boolean presente, Boolean esExtra) {
         this.id = id;
         this.organizacion = organizacion;
         this.colaborador = colaborador;
-        this.sesion = sesion;
         this.fechaRegistro = fechaRegistro;
         this.entrada = entrada;
         this.salida = salida;
@@ -62,9 +58,6 @@ public class Asistencias {
 
     public Colaboradores getColaborador() { return colaborador; }
     public void setColaborador(Colaboradores colaborador) { this.colaborador = colaborador; }
-
-    public Sesion getSesion() { return sesion; }
-    public void setSesion(Sesion sesion) { this.sesion = sesion; }
 
     public Date getFechaRegistro() { return fechaRegistro; }
     public void setFechaRegistro(Date fechaRegistro) { this.fechaRegistro = fechaRegistro; }

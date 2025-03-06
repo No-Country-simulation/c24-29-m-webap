@@ -1,26 +1,15 @@
 package com.no_country.fichaje.datos.asistencia;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Objects;
 
-@Getter
-@Setter
 public class AsistenciaDTO {
-private String sesionKey;
-private Long organizacionId;
 
-    public AsistenciaDTO(String sesionKey, Long organizacionId, String imagenCapturada) {
-        this.sesionKey = sesionKey;
+private Long organizacionId;
+private String imagenCapturada;
+
+    public AsistenciaDTO(Long organizacionId, String imagenCapturada) {
         this.organizacionId = organizacionId;
         this.imagenCapturada = imagenCapturada;
-    }
-
-    public String getSesionKey() {
-        return sesionKey;
-    }
-
-    public void setSesionKey(String sesionKey) {
-        this.sesionKey = sesionKey;
     }
 
     public Long getOrganizacionId() {
@@ -39,5 +28,16 @@ private Long organizacionId;
         this.imagenCapturada = imagenCapturada;
     }
 
-    private String imagenCapturada;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AsistenciaDTO that = (AsistenciaDTO) o;
+        return Objects.equals(organizacionId, that.organizacionId) && Objects.equals(imagenCapturada, that.imagenCapturada);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(organizacionId, imagenCapturada);
+    }
 }
