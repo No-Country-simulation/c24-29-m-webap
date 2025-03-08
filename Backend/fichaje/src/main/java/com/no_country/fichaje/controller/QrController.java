@@ -17,7 +17,7 @@ public class QrController {
     @GetMapping(value = "/generate", produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<byte[]> generateQrCode(@RequestParam Long organizacionId) {
         try {
-            String url = "https://localhost/login?organizacionId=" + organizacionId;
+            String url = "https://ficheck.vercel.app/scan?organizacionId=" + organizacionId;
 
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             BitMatrix bitMatrix = qrCodeWriter.encode(url, BarcodeFormat.QR_CODE, 300, 300);

@@ -1,7 +1,7 @@
-package com.no_country.fichaje.datos.asistencia;
+package com.no_country.fichaje.datos.model.asistencia;
 
-import com.no_country.fichaje.datos.colaboradores.Colaboradores;
-import com.no_country.fichaje.datos.organizacion.Organizacion;
+import com.no_country.fichaje.datos.model.colaboradores.Colaboradores;
+import com.no_country.fichaje.datos.model.organizacion.Organizacion;
 import jakarta.persistence.*;
 import java.util.Date;
 import java.util.Objects;

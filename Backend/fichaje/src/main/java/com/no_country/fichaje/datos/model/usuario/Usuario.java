@@ -1,6 +1,6 @@
-package com.no_country.fichaje.datos.Usuario;
+package com.no_country.fichaje.datos.model.usuario;
 
-import com.no_country.fichaje.datos.organizacion.Organizacion;
+import com.no_country.fichaje.datos.model.organizacion.Organizacion;
 import jakarta.persistence.*;
 import lombok.NonNull;
 import org.springframework.security.core.GrantedAuthority;

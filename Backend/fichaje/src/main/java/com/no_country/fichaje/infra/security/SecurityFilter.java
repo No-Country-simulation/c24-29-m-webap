@@ -1,6 +1,6 @@
 package com.no_country.fichaje.infra.security;
 
-import com.no_country.fichaje.datos.Usuario.Usuario;
+import com.no_country.fichaje.datos.model.usuario.Usuario;
 import com.no_country.fichaje.repository.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -37,8 +37,8 @@ public class SecurityFilter extends OncePerRequestFilter {
             try {
                 String subject = tokenServis.getSubject(token);
                 if (subject != null) {
-                    Usuario usuario = usuarioRepository.findByCorreoElectronico(subject)
-                            .orElseThrow(() -> new ValidacionExeption("Usuario no encontrado"));
+                    Usuario usuario = usuarioRepository.findByEmail(subject)
+                            .orElseThrow(() -> new ValidacionExeption("usuario no encontrado"));
 
                     var authentication = new UsernamePasswordAuthenticationToken(
                             usuario,

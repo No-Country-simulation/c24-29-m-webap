@@ -1,4 +1,4 @@
-package com.no_country.fichaje.datos.Usuario;
+package com.no_country.fichaje.datos.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

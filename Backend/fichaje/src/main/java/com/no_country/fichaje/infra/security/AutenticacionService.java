@@ -1,6 +1,6 @@
 package com.no_country.fichaje.infra.security;
 
-import com.no_country.fichaje.datos.Usuario.Usuario;
+import com.no_country.fichaje.datos.model.usuario.Usuario;
 import com.no_country.fichaje.repository.UsuarioRepository;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.User;
@@ -22,8 +22,8 @@ public class AutenticacionService {
         }
 
         public UserDetails autenticar(String correoElectronico, String contrasena) {
-            Usuario usuario = usuarioRepository.findByCorreoElectronico(correoElectronico)
-                    .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+               Usuario usuario = usuarioRepository.findByEmail(correoElectronico)
+                    .orElseThrow(() -> new UsernameNotFoundException("usuario no encontrado"));
 
             if (!passwordEncoder.matches(contrasena, usuario.getContrasena())) {
                 throw new BadCredentialsException("Contraseña incorrecta");

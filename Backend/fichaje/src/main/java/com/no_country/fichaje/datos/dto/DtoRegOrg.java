@@ -1,4 +1,4 @@
-package com.no_country.fichaje.datos.organizacion;
+package com.no_country.fichaje.datos.dto;
 
 import jakarta.validation.constraints.NotBlank;
 

@@ -1,7 +1,7 @@
-package com.no_country.fichaje.datos.organizacion;
+package com.no_country.fichaje.datos.model.organizacion;
 
-import com.no_country.fichaje.datos.Usuario.Usuario;
-import com.no_country.fichaje.datos.colaboradores.Colaboradores;
+import com.no_country.fichaje.datos.model.usuario.Usuario;
+import com.no_country.fichaje.datos.model.colaboradores.Colaboradores;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;

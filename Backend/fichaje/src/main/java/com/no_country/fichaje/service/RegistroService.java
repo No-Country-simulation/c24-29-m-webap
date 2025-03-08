@@ -1,15 +1,17 @@
 package com.no_country.fichaje.service;
 
-import com.no_country.fichaje.datos.Usuario.Usuario;
-import com.no_country.fichaje.datos.colaboradores.Colaboradores;
-import com.no_country.fichaje.datos.colaboradores.DtoRegColab;
-import com.no_country.fichaje.datos.organizacion.DtoRegOrg;
-import com.no_country.fichaje.datos.organizacion.Organizacion;
+import com.no_country.fichaje.datos.model.usuario.Usuario;
+import com.no_country.fichaje.datos.model.colaboradores.Colaboradores;
+import com.no_country.fichaje.datos.dto.DtoRegColab;
+import com.no_country.fichaje.datos.dto.DtoRegOrg;
+import com.no_country.fichaje.datos.model.organizacion.Organizacion;
 import com.no_country.fichaje.repository.ColaboradorRepository;
 import com.no_country.fichaje.repository.OrganizacionRepository;
 import com.no_country.fichaje.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class RegistroService {
@@ -28,7 +30,7 @@ public class RegistroService {
         }
 
         Usuario usuario = usuarioRepository.findById(registrar.usuarioId())
-                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException("usuario no encontrado"));
 
         Organizacion nuevaOrganizacion = new Organizacion();
         nuevaOrganizacion.setNombre(registrar.nombre());
@@ -63,5 +65,9 @@ public class RegistroService {
         colaboradores.setOrganizacion(organizacion);
 
         return colaboradorRepository.save(colaboradores);
+    }
+
+    public List<Organizacion> listarOrganizacionesPorUsuario(Long usuarioId) {
+        return organizacionRepository.findByUsuarioId(usuarioId);
     }
 }

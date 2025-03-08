@@ -3,7 +3,7 @@ package com.no_country.fichaje.infra.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.no_country.fichaje.datos.Usuario.Usuario;
+import com.no_country.fichaje.datos.model.usuario.Usuario;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
@@ -47,4 +47,8 @@ public String getSubject(String token) {
 private Instant generarFechaExpiracion() {
     return LocalDateTime.now().plusHours(12).toInstant(ZoneOffset.of("-03:00"));
 }
+
+    public Long obtenerIdDesdeToken(String token) {
+        return null;
+    }
 }

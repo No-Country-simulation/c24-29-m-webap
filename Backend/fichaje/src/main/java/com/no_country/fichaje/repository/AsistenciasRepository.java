@@ -1,7 +1,7 @@
 package com.no_country.fichaje.repository;
 
-import com.no_country.fichaje.datos.asistencia.Asistencias;
-import com.no_country.fichaje.datos.colaboradores.Colaboradores;
+import com.no_country.fichaje.datos.model.asistencia.Asistencias;
+import com.no_country.fichaje.datos.model.colaboradores.Colaboradores;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -17,10 +17,8 @@ public interface AsistenciasRepository extends JpaRepository<Asistencias, Long> 
     @Query("SELECT a FROM Asistencias a WHERE a.colaborador = :colaborador " +
             "AND FUNCTION('DATE', a.fechaRegistro) = FUNCTION('DATE', :fecha) " +
             "AND a.salida IS NULL")
-    Asistencias findRegistroAbiertoByColaboradorAndFecha(@Param("colaborador") Colaboradores colaborador,
+    List<Asistencias> findRegistroAbiertoByColaboradorAndFecha(@Param("colaborador") Colaboradores colaborador,
                                                          @Param("fecha") Date fecha);
-
-    Optional<Asistencias> findByColaborador(Colaboradores colaborador);
 
     @Modifying
     @Transactional
@@ -28,7 +26,11 @@ public interface AsistenciasRepository extends JpaRepository<Asistencias, Long> 
     void registrarSalida(@Param("id") Long id, @Param("salida") Date salida);
 
 
-    Optional<Asistencias> findRegistroAbiertoByColaborador(@Param("colaborador") Colaboradores colaborador);
+    Optional<Asistencias> findByColaboradorAndSalidaIsNull(Colaboradores colaborador);
 
-    List<Asistencias> findByColaboradorAndFecha(Colaboradores colaborador, Date fechaRegistro);
+
+    List<Asistencias> findByColaborador(Colaboradores colaborador);
+
+    List<Asistencias> findByColaboradorAndFechaRegistroBetween(Colaboradores colaborador, Date fechaInicio, Date fechaFin);
+    List<Asistencias> findByOrganizacionIdAndFechaRegistroBetween(Long organizacionId, Date fechaInicio, Date fechaFin);
 }

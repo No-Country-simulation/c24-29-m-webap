@@ -1,10 +1,13 @@
 package com.no_country.fichaje.controller;
 
 import com.no_country.fichaje.ValidacionExeption;
-import com.no_country.fichaje.datos.Usuario.LoginUsuarioDTO;
-import com.no_country.fichaje.datos.Usuario.RegistroUsuarioDTO;
-import com.no_country.fichaje.datos.Usuario.Usuario;
+import com.no_country.fichaje.datos.dto.ActualizarUsuarioDTO;
+import com.no_country.fichaje.datos.dto.LoginUsuarioDTO;
+import com.no_country.fichaje.datos.dto.RegistroUsuarioDTO;
+import com.no_country.fichaje.datos.model.usuario.Usuario;
+import com.no_country.fichaje.datos.model.organizacion.Organizacion;
 import com.no_country.fichaje.infra.security.AutenticacionService;
+import com.no_country.fichaje.service.RegistroService;
 import com.no_country.fichaje.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,8 @@ import com.no_country.fichaje.infra.security.TokenService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -30,13 +35,16 @@ public class UsuarioController {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private RegistroService registroService;
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
     public ResponseEntity<?> crearUsuario(@RequestBody @Valid RegistroUsuarioDTO usuario){
         try{
             Usuario nuevoUsuario = usuarioService.crearUsuario(usuario);
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(Map.of("mensaje", "Usuario creado con éxito" + nuevoUsuario));
+                    .body(Map.of("mensaje", "usuario creado con éxito" + nuevoUsuario));
         }catch (ValidacionExeption e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(Map.of("error", e.getMessage()));
@@ -57,5 +65,38 @@ public class UsuarioController {
            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                    .body("Error: " + e.getMessage());
        }
+    }
+
+    @GetMapping()
+    public ResponseEntity<?> verDatosUsuario(@RequestHeader ("Authorization") String token){
+       try {
+           Long usuarioId = tokenService.obtenerIdDesdeToken(token);
+           List<Organizacion> organizaciones = registroService.listarOrganizacionesPorUsuario(usuarioId);
+           return ResponseEntity.ok(organizaciones);
+       }catch (Exception e){
+           return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                   .body(Map.of("error", "Token inválido o expirado"));
+       }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUsuario(@PathVariable Long id){
+        try {
+            Usuario usuario = usuarioService.buscarPorId(id);
+            return ResponseEntity.ok(usuario);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizarUsuario(@PathVariable Long id, @RequestBody @Valid ActualizarUsuarioDTO dto){
+        try {
+            Usuario usuario = usuarioService.actualizarUsuario(id, dto);
+            return ResponseEntity.ok(usuario);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", e.getMessage()));
+        }
     }
 }

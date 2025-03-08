@@ -1,7 +1,7 @@
-package com.no_country.fichaje.datos.colaboradores;
+package com.no_country.fichaje.datos.model.colaboradores;
 
-import com.no_country.fichaje.datos.asistencia.Asistencias;
-import com.no_country.fichaje.datos.organizacion.Organizacion;
+import com.no_country.fichaje.datos.model.asistencia.Asistencias;
+import com.no_country.fichaje.datos.model.organizacion.Organizacion;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -27,6 +27,7 @@ public class Colaboradores {
     @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
     @Positive(message = "El DNI debe ser un número positivo")
+    @Column(unique = true)
     private int dni;
     @NotBlank(message = "La dirección es obligatoria")
     private String direccion;

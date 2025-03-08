@@ -1,6 +1,7 @@
-package com.no_country.fichaje.datos.colaboradores;
+package com.no_country.fichaje.datos.dto;
 
 
+import com.no_country.fichaje.datos.model.colaboradores.Estado;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
