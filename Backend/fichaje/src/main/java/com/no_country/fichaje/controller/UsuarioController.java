@@ -2,11 +2,10 @@ package com.no_country.fichaje.controller;
 
 import com.no_country.fichaje.ValidacionExeption;
 import com.no_country.fichaje.datos.dto.ActualizarUsuarioDTO;
-import com.no_country.fichaje.datos.dto.LoginUsuarioDTO;
 import com.no_country.fichaje.datos.dto.RegistroUsuarioDTO;
 import com.no_country.fichaje.datos.model.Usuario;
 import com.no_country.fichaje.datos.model.Organizacion;
-import com.no_country.fichaje.infra.security.AutenticacionService;
+import com.no_country.fichaje.repository.UsuarioRepository;
 import com.no_country.fichaje.service.OrganizacionService;
 import com.no_country.fichaje.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -15,7 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import com.no_country.fichaje.infra.security.TokenService;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,16 +26,16 @@ import java.util.Map;
 public class UsuarioController {
 
     @Autowired
-    private UsuarioService usuarioService;
-
-    @Autowired
-    private AutenticacionService autenticacionService;
-
+    private  UsuarioService usuarioService;
     @Autowired
     private TokenService tokenService;
-
     @Autowired
     private OrganizacionService organizacionService;
+    @Autowired
+    private  UsuarioRepository usuarioRepository;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
@@ -52,19 +51,6 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "Error interno del servidor"));
         }
-    }
-    @PostMapping("/login")
-    @Transactional
-    public ResponseEntity<?> loginUsuario(@RequestBody @Valid LoginUsuarioDTO usuario){
-       try{
-           UserDetails userDetails = autenticacionService.autenticar(usuario.email(), usuario.contrasena());
-           Usuario usuario1 = usuarioService.buscarPorEmail(usuario.email());
-           String token = tokenService.generarToken(usuario1);
-           return ResponseEntity.ok(token);
-       } catch (RuntimeException e){
-           return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                   .body("Error: " + e.getMessage());
-       }
     }
 
     @GetMapping()

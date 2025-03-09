@@ -2,12 +2,14 @@ package com.no_country.fichaje.infra.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.no_country.fichaje.ValidacionExeption;
 import com.no_country.fichaje.datos.model.Usuario;
 import com.no_country.fichaje.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -20,27 +22,27 @@ public class TokenService{
 @Value("${api.security.secret}")
 private String apiSecret;
 
-    private final UsuarioRepository usuarioRepository;
-
-    @Autowired
-    public TokenService(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
-    }
+@Autowired
+private UsuarioRepository usuarioRepository;
 
 
 public String generarToken(Usuario usuario) {
-    Algorithm algorithm = Algorithm.HMAC256(apiSecret);
-    return JWT.create()
-            .withSubject(usuario.getEmail())
-            .withIssuedAt(Date.from(Instant.now()))
-            .withExpiresAt(Date.from(generarFechaExpiracion()))
-            .withIssuer("fichaje")
-            .sign(algorithm);
+    try {
+        Algorithm algorithm = Algorithm.HMAC256(apiSecret);
+        return JWT.create()
+                .withSubject(usuario.getEmail())
+                .withIssuedAt(Date.from(Instant.now()))
+                .withExpiresAt(Date.from(generarFechaExpiracion()))
+                .withIssuer("fichaje")
+                .sign(algorithm);
+    }catch (JWTCreationException e){
+        throw new RuntimeException("Error al generar el token JWT", e);
+    }
 }
 
 public String getSubject(String token) {
-    if (token == null || token.isBlank()) {
-        throw new SecurityException("Token no proporcionado");
+    if (token == null) {
+        throw new RuntimeException("Token no puede ser null");
     }
     try {
         Algorithm algorithm = Algorithm.HMAC256(apiSecret);

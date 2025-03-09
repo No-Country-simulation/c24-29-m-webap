@@ -17,7 +17,6 @@ CREATE TABLE organizaciones (
     usuario_id BIGINT NOT NULL,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
-
 -- Crear tabla de colaboradores
 CREATE TABLE colaboradores (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,

@@ -5,8 +5,6 @@ import lombok.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -59,7 +57,7 @@ public class Usuario implements UserDetails {
     }
 
     public void setContrasena(@NonNull String contrasena) {
-        this.contrasena = PASSWORD_ENCODER.encode(contrasena);
+        this.contrasena = contrasena;
     }
 
     @Override
@@ -116,5 +114,5 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-    private static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
+
 }
