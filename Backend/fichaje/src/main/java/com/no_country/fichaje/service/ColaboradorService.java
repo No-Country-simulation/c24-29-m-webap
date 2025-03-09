@@ -1,13 +1,14 @@
 package com.no_country.fichaje.service;
 
 import com.no_country.fichaje.datos.dto.ActualizarColaboradorDTO;
-import com.no_country.fichaje.datos.model.colaboradores.Colaboradores;
-import com.no_country.fichaje.datos.model.colaboradores.Estado;
+import com.no_country.fichaje.datos.dto.DtoRegColab;
+import com.no_country.fichaje.datos.model.Colaboradores;
+import com.no_country.fichaje.datos.model.Estado;
+import com.no_country.fichaje.datos.model.Organizacion;
 import com.no_country.fichaje.repository.ColaboradorRepository;
 import com.no_country.fichaje.repository.OrganizacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
 import java.util.List;
 
@@ -70,5 +71,34 @@ public class ColaboradorService {
         }
 
         return colaboradorRepository.save(colaborador);
+    }
+    public Colaboradores regColaboradores(DtoRegColab registrar){
+        if (colaboradorRepository.existsByDni(registrar.dni())){
+            throw new IllegalArgumentException("El DNI del Colaborador ya fue registrado anteriormente");
+        }
+
+        Organizacion organizacion = organizacionRepository.findById(registrar.organizacionId())
+                .orElseThrow(() -> new IllegalArgumentException("La organización con ID " + registrar.organizacionId() + " no existe"));
+
+        Colaboradores colaboradores = new Colaboradores();
+
+        colaboradores.setNombre(registrar.nombre());
+        colaboradores.setDni(registrar.dni());
+        colaboradores.setDireccion(registrar.direccion());
+        colaboradores.setCcodigoPostal(registrar.codigoPostal());
+        colaboradores.setTelefono(registrar.telefono());
+        colaboradores.setCorreoElectronico(registrar.correoElectronico());
+        colaboradores.setFechaAlta(registrar.fechaAlta());
+        colaboradores.setCargo(registrar.cargo());
+        colaboradores.setEstado(registrar.estado());
+        colaboradores.setFrente(registrar.frente());
+
+        colaboradores.setOrganizacion(organizacion);
+
+        return colaboradorRepository.save(colaboradores);
+    }
+
+    public List<Organizacion> listarOrganizacionesPorUsuario(Long usuarioId) {
+        return organizacionRepository.findByUsuarioId(usuarioId);
     }
 }

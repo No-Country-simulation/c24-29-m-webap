@@ -1,5 +1,5 @@
 package com.no_country.fichaje.datos.dto;
-import com.no_country.fichaje.datos.model.colaboradores.Estado;
+import com.no_country.fichaje.datos.model.Estado;
 import jakarta.validation.constraints.NotNull;
 import java.util.Date;
 

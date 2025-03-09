@@ -1,7 +1,5 @@
-package com.no_country.fichaje.datos.model.asistencia;
+package com.no_country.fichaje.datos.model;
 
-import com.no_country.fichaje.datos.model.colaboradores.Colaboradores;
-import com.no_country.fichaje.datos.model.organizacion.Organizacion;
 import jakarta.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -20,7 +18,6 @@ public class Asistencias {
     @ManyToOne
     @JoinColumn(name = "colaborador_id", nullable = false)
     private Colaboradores colaborador;
-
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRegistro;

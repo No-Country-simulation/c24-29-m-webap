@@ -3,7 +3,10 @@ package com.no_country.fichaje.infra.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.no_country.fichaje.datos.model.usuario.Usuario;
+import com.no_country.fichaje.ValidacionExeption;
+import com.no_country.fichaje.datos.model.Usuario;
+import com.no_country.fichaje.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
@@ -16,6 +19,13 @@ public class TokenService{
 
 @Value("${api.security.secret}")
 private String apiSecret;
+
+    private final UsuarioRepository usuarioRepository;
+
+    @Autowired
+    public TokenService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
 
 
 public String generarToken(Usuario usuario) {
@@ -49,6 +59,10 @@ private Instant generarFechaExpiracion() {
 }
 
     public Long obtenerIdDesdeToken(String token) {
-        return null;
+
+        String subject = getSubject(token);
+        return usuarioRepository.findByEmail(subject)
+                .map(Usuario::getId)
+                .orElseThrow(() -> new ValidacionExeption("Usuario no encontrado"));
     }
 }

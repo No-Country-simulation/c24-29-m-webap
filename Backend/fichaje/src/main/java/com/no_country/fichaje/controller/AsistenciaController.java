@@ -2,7 +2,7 @@ package com.no_country.fichaje.controller;
 
 import com.no_country.fichaje.datos.dto.AsistenciaDTO;
 import com.no_country.fichaje.datos.dto.ReporteAsistenciaDTO;
-import com.no_country.fichaje.datos.model.colaboradores.Colaboradores;
+import com.no_country.fichaje.datos.model.Colaboradores;
 import com.no_country.fichaje.repository.AsistenciasRepository;
 import com.no_country.fichaje.repository.ColaboradorRepository;
 import com.no_country.fichaje.service.AsistenciaService;
@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.no_country.fichaje.infra.security.TokenService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;

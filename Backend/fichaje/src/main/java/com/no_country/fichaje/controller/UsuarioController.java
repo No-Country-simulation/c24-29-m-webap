@@ -4,10 +4,10 @@ import com.no_country.fichaje.ValidacionExeption;
 import com.no_country.fichaje.datos.dto.ActualizarUsuarioDTO;
 import com.no_country.fichaje.datos.dto.LoginUsuarioDTO;
 import com.no_country.fichaje.datos.dto.RegistroUsuarioDTO;
-import com.no_country.fichaje.datos.model.usuario.Usuario;
-import com.no_country.fichaje.datos.model.organizacion.Organizacion;
+import com.no_country.fichaje.datos.model.Usuario;
+import com.no_country.fichaje.datos.model.Organizacion;
 import com.no_country.fichaje.infra.security.AutenticacionService;
-import com.no_country.fichaje.service.RegistroService;
+import com.no_country.fichaje.service.OrganizacionService;
 import com.no_country.fichaje.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class UsuarioController {
     private TokenService tokenService;
 
     @Autowired
-    private RegistroService registroService;
+    private OrganizacionService organizacionService;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
@@ -71,7 +71,7 @@ public class UsuarioController {
     public ResponseEntity<?> verDatosUsuario(@RequestHeader ("Authorization") String token){
        try {
            Long usuarioId = tokenService.obtenerIdDesdeToken(token);
-           List<Organizacion> organizaciones = registroService.listarOrganizacionesPorUsuario(usuarioId);
+           List<Organizacion> organizaciones = organizacionService.listarOrganizacionesPorUsuario(usuarioId);
            return ResponseEntity.ok(organizaciones);
        }catch (Exception e){
            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -98,5 +98,10 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Map.of("error", e.getMessage()));
         }
+    }
+    @DeleteMapping("/usuarios/{id}")
+    public ResponseEntity<Void> eliminarUsuario(@PathVariable Long id) {
+        usuarioService.eliminarUsuario(id);
+        return ResponseEntity.noContent().build();
     }
 }

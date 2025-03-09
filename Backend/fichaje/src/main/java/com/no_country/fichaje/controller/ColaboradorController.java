@@ -1,16 +1,16 @@
 package com.no_country.fichaje.controller;
 
 import com.no_country.fichaje.ValidacionExeption;
-import com.no_country.fichaje.datos.model.asistencia.Asistencias;
+import com.no_country.fichaje.datos.model.Asistencias;
 import com.no_country.fichaje.datos.dto.JustificacionDTO;
 import com.no_country.fichaje.datos.dto.ActualizarColaboradorDTO;
 import com.no_country.fichaje.datos.dto.CambioEstadoDTO;
-import com.no_country.fichaje.datos.model.colaboradores.Colaboradores;
+import com.no_country.fichaje.datos.model.Colaboradores;
 import com.no_country.fichaje.datos.dto.DtoRegColab;
 import com.no_country.fichaje.infra.security.TokenService;
 import com.no_country.fichaje.service.AsistenciaService;
 import com.no_country.fichaje.service.ColaboradorService;
-import com.no_country.fichaje.service.RegistroService;
+import com.no_country.fichaje.service.OrganizacionService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import java.util.Map;
 public class ColaboradorController {
 
     @Autowired
-    private RegistroService registroService;
+    private OrganizacionService organizacionService;
     
     @Autowired
     private AsistenciaService asistenciaService;
@@ -40,7 +40,7 @@ public class ColaboradorController {
     @Transactional
     public ResponseEntity<Map<String, String>> regColab(@RequestBody @Valid DtoRegColab regColab){
         try {
-            Colaboradores colaboradores = registroService.regColaboradores(regColab);
+            Colaboradores colaboradores = colaboradorService.regColaboradores(regColab);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(Map.of("mensaje", "Colaborador Registrado Exitosamente"));
         }catch (ValidacionExeption e){

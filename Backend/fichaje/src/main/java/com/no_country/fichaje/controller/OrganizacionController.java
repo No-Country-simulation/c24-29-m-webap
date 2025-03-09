@@ -1,13 +1,13 @@
 package com.no_country.fichaje.controller;
 
 import com.no_country.fichaje.ValidacionExeption;
-import com.no_country.fichaje.datos.model.colaboradores.Colaboradores;
+import com.no_country.fichaje.datos.model.Colaboradores;
 import com.no_country.fichaje.datos.dto.DtoRegOrg;
-import com.no_country.fichaje.datos.model.organizacion.Organizacion;
+import com.no_country.fichaje.datos.model.Organizacion;
 import com.no_country.fichaje.infra.security.TokenService;
 import com.no_country.fichaje.service.AsistenciaService;
 import com.no_country.fichaje.service.ColaboradorService;
-import com.no_country.fichaje.service.RegistroService;
+import com.no_country.fichaje.service.OrganizacionService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.util.Map;
 public class OrganizacionController {
 
     @Autowired
-    public RegistroService registroService;
+    public OrganizacionService organizacionService;
 
     @Autowired
     private TokenService tokenService;
@@ -34,11 +34,12 @@ public class OrganizacionController {
     @Autowired
     private AsistenciaService asistenciaService;
 
+
     @PostMapping
     @Transactional
     public ResponseEntity<Map<String, String>> regOrganizacion(@RequestBody @Valid DtoRegOrg registrar) {
         try {
-            Organizacion organizacion = registroService.regOrg(registrar);
+            Organizacion organizacion = organizacionService.regOrg(registrar);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(Map.of("mensaje", "Organización registrada exitosamente"));
         } catch (ValidacionExeption e) {
@@ -75,5 +76,15 @@ public class OrganizacionController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("error", e.getMessage()));
         }
+    }
+    @DeleteMapping("/organizaciones/{id}")
+    public ResponseEntity<Void> eliminarOrganizacion(@PathVariable Long id) {
+        organizacionService.eliminarOrganizacion(id);
+        return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/organizaciones/buscar")
+    public ResponseEntity<Long> obtenerIdPorNumeroRegistrado(@RequestParam Integer numeroRegistro) {
+        Long id = organizacionService.obtenerIdPorNumeroRegistrado(numeroRegistro);
+        return ResponseEntity.ok(id);
     }
 }

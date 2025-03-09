@@ -1,7 +1,7 @@
 package com.no_country.fichaje.repository;
 
-import com.no_country.fichaje.datos.model.asistencia.Asistencias;
-import com.no_country.fichaje.datos.model.colaboradores.Colaboradores;
+import com.no_country.fichaje.datos.model.Asistencias;
+import com.no_country.fichaje.datos.model.Colaboradores;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

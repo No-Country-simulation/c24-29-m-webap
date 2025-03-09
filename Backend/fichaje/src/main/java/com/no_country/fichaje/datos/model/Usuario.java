@@ -1,32 +1,34 @@
-package com.no_country.fichaje.datos.model.usuario;
+package com.no_country.fichaje.datos.model;
 
-import com.no_country.fichaje.datos.model.organizacion.Organizacion;
 import jakarta.persistence.*;
 import lombok.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Usuario {
+@Table(name = "usuarios")
+public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nombre;
+
     @NonNull
     @Column(nullable = false, unique = true)
     private String email;
+
     @NonNull
     private String contrasena;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Organizacion> organizaciones = new ArrayList<>();
+    @OneToMany(mappedBy = "usuario")
+    private List<Organizacion> organizaciones;
 
     public Long getId() {
         return id;
@@ -57,7 +59,7 @@ public class Usuario {
     }
 
     public void setContrasena(@NonNull String contrasena) {
-        this.contrasena = contrasena;
+        this.contrasena = PASSWORD_ENCODER.encode(contrasena);
     }
 
     @Override
@@ -83,6 +85,36 @@ public class Usuario {
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getPassword() {
+        return contrasena;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
     private static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 }

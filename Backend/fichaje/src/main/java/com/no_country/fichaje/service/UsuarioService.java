@@ -1,17 +1,19 @@
 package com.no_country.fichaje.service;
 
 import com.no_country.fichaje.datos.dto.RegistroUsuarioDTO;
-import com.no_country.fichaje.datos.model.usuario.Usuario;
+import com.no_country.fichaje.datos.model.Usuario;
 import com.no_country.fichaje.infra.security.SecurityConfiguration;
 import com.no_country.fichaje.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.no_country.fichaje.datos.dto.ActualizarUsuarioDTO;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class UsuarioService {
@@ -64,6 +66,12 @@ public class UsuarioService {
 
             return usuarioRepository.save(usuario);
         }
+    public void eliminarUsuario(Long id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
+        }
+        usuarioRepository.deleteById(id);
+    }
 }
 
 

@@ -1,7 +1,7 @@
 package com.no_country.fichaje.repository;
 
-import com.no_country.fichaje.datos.model.colaboradores.Colaboradores;
-import com.no_country.fichaje.datos.model.colaboradores.Estado;
+import com.no_country.fichaje.datos.model.Colaboradores;
+import com.no_country.fichaje.datos.model.Estado;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

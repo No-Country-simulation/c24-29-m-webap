@@ -1,13 +1,10 @@
-package com.no_country.fichaje.datos.model.colaboradores;
+package com.no_country.fichaje.datos.model;
 
-import com.no_country.fichaje.datos.model.asistencia.Asistencias;
-import com.no_country.fichaje.datos.model.organizacion.Organizacion;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,11 +21,14 @@ public class Colaboradores {
     @NotNull(message = "La organización es obligatoria")
     @JoinColumn(name = "organizacion_id", nullable = false)
     private Organizacion organizacion;
+
     @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
+
     @Positive(message = "El DNI debe ser un número positivo")
     @Column(unique = true)
     private int dni;
+
     @NotBlank(message = "La dirección es obligatoria")
     private String direccion;
     @NotBlank(message = "El código postal es obligatorio")
