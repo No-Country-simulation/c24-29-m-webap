@@ -1,1 +1,297 @@
+https://ficheck.vercel.app/
+Pruebas de Inicio de Sesión
+-Area de Cliente
+SELENIUM IDE
+
+{
+  "id": "9368dd03-65f3-4b49-b18c-20baebb81785",
+  "version": "2.0",
+  "name": "FICKECK",
+  "url": "https://ficheck.vercel.app",
+  "tests": [{
+    "id": "9d5684d0-dae5-4b1c-a853-dd9c9f3152cd",
+    "name": "PRUEBA DE INICIO",
+    "commands": [{
+      "id": "becf0cfc-f26b-4ad3-baf9-7f276761ab64",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5394458c-5778-4a28-a277-64f7e4515e62",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1552x832",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "dc39ccae-ec40-447e-9dab-9260f7ca0b0b",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Area de cliente",
+      "targets": [
+        ["linkText=Area de cliente", "linkText"],
+        ["css=li:nth-child(3) > .hover\\3A bg-gray-100", "css:finder"],
+        ["xpath=//a[contains(text(),'Area de cliente')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/login')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Area de cliente')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "aaae2351-fbc2-44de-ab26-51f40999d69f",
+      "comment": "",
+      "command": "click",
+      "target": "id=login-username",
+      "targets": [
+        ["id=login-username", "id"],
+        ["name=username", "name"],
+        ["css=#login-username", "css:finder"],
+        ["xpath=//input[@id='login-username']", "xpath:attributes"],
+        ["xpath=//form[@id='login-form']/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "829eac73-7f2b-4b6b-8534-05228b0e7b5c",
+      "comment": "",
+      "command": "type",
+      "target": "id=login-username",
+      "targets": [
+        ["id=login-username", "id"],
+        ["name=username", "name"],
+        ["css=#login-username", "css:finder"],
+        ["xpath=//input[@id='login-username']", "xpath:attributes"],
+        ["xpath=//form[@id='login-form']/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "narabelenavilaluquez"
+    }, {
+      "id": "c9907843-1de7-45e8-9fab-85b429606cec",
+      "comment": "",
+      "command": "click",
+      "target": "id=login-password",
+      "targets": [
+        ["id=login-password", "id"],
+        ["name=password", "name"],
+        ["css=#login-password", "css:finder"],
+        ["xpath=//input[@id='login-password']", "xpath:attributes"],
+        ["xpath=//form[@id='login-form']/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "863c211c-4039-42ce-aff1-6b1cf8d0c975",
+      "comment": "",
+      "command": "type",
+      "target": "id=login-password",
+      "targets": [
+        ["id=login-password", "id"],
+        ["name=password", "name"],
+        ["css=#login-password", "css:finder"],
+        ["xpath=//input[@id='login-password']", "xpath:attributes"],
+        ["xpath=//form[@id='login-form']/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "1234"
+    }, {
+      "id": "aa0366f5-5f0d-4c34-9f30-efbdf9dd5ce9",
+      "comment": "",
+      "command": "click",
+      "target": "id=login-button",
+      "targets": [
+        ["id=login-button", "id"],
+        ["css=#login-button", "css:finder"],
+        ["xpath=//button[@id='login-button']", "xpath:attributes"],
+        ["xpath=//form[@id='login-form']/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Login')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "3421d7f6-82e5-4682-89a1-43e1912d13af",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(1) > .w-full",
+      "targets": [
+        ["css=li:nth-child(1) > .w-full", "css:finder"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Resumen')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "6303fd63-2d38-4830-8d02-b61e49519d26",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(2) > .w-full",
+      "targets": [
+        ["css=li:nth-child(2) > .w-full", "css:finder"],
+        ["xpath=//li[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Buscar Empleados')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a09fda82-5acd-44c7-b61e-21065ee858db",
+      "comment": "",
+      "command": "click",
+      "target": "css=.dashboard-section:nth-child(2) .bg-white",
+      "targets": [
+        ["css=.dashboard-section:nth-child(2) .bg-white", "css:finder"],
+        ["xpath=//div[@id='dashboard-content']/div[2]/div/div", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e3e86749-ae95-44e2-b2e1-e9932dbd017f",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(3) > .w-full",
+      "targets": [
+        ["css=li:nth-child(3) > .w-full", "css:finder"],
+        ["xpath=//li[3]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Gestión de Empleados')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "1b02c9b7-c07c-498e-bf8c-b5d90ccceee1",
+      "comment": "",
+      "command": "click",
+      "target": "css=.bg-black:nth-child(2)",
+      "targets": [
+        ["css=.bg-black:nth-child(2)", "css:finder"],
+        ["xpath=//div[@id='dashboard-content']/div[3]/div/button", "xpath:idRelative"],
+        ["xpath=//div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Agregar Empleado')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "069f3f05-89a9-4516-9dc4-04cfb6ddd014",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(4) > .w-full",
+      "targets": [
+        ["css=li:nth-child(4) > .w-full", "css:finder"],
+        ["xpath=//li[4]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Reportes')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "aecfaa20-1c73-4224-a7dd-21f5807f3972",
+      "comment": "",
+      "command": "click",
+      "target": "css=.bg-blue-500",
+      "targets": [
+        ["css=.bg-blue-500", "css:finder"],
+        ["xpath=//div[@id='dashboard-content']/div[4]/div/button", "xpath:idRelative"],
+        ["xpath=//div[4]/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Descargar Reporte')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "cb2513db-0653-4b8d-95cd-6886cb8f6e62",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(5) > .w-full",
+      "targets": [
+        ["css=li:nth-child(5) > .w-full", "css:finder"],
+        ["xpath=//li[5]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Configuración')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d9cb2ca4-ebe5-4437-8a41-a837dcce66ab",
+      "comment": "",
+      "command": "click",
+      "target": "css=.mt-1",
+      "targets": [
+        ["css=.mt-1", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//div[@id='dashboard-content']/div[5]/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[5]/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3dd72f3f-3cd4-423d-8992-c5fff4f68de1",
+      "comment": "",
+      "command": "click",
+      "target": "css=.mt-1",
+      "targets": [
+        ["css=.mt-1", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//div[@id='dashboard-content']/div[5]/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[5]/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "21329c2e-da0b-4b6d-b28f-65e40acefaa7",
+      "comment": "",
+      "command": "type",
+      "target": "css=.mt-1",
+      "targets": [
+        ["css=.mt-1", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//div[@id='dashboard-content']/div[5]/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[5]/div/div/input", "xpath:position"]
+      ],
+      "value": "SOL"
+    }, {
+      "id": "b7dcf764-d45d-4347-87ed-1037148968e4",
+      "comment": "",
+      "command": "click",
+      "target": "css=.border:nth-child(1)",
+      "targets": [
+        ["css=.border:nth-child(1)", "css:finder"],
+        ["xpath=//input[@type='time']", "xpath:attributes"],
+        ["xpath=//div[@id='dashboard-content']/div[5]/div/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[5]/div/div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3f043e88-fe4b-430b-a292-dc2dfaceaf8c",
+      "comment": "",
+      "command": "click",
+      "target": "css=.flex-1",
+      "targets": [
+        ["css=.flex-1", "css:finder"],
+        ["xpath=//main", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c0960b45-1cd4-4b29-9c99-0ce4715ff59a",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(1) > .w-full",
+      "targets": [
+        ["css=li:nth-child(1) > .w-full", "css:finder"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Resumen')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "49a1af55-8ab6-4caa-814c-f5df25f32470",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(5) > .w-full",
+      "targets": [
+        ["css=li:nth-child(5) > .w-full", "css:finder"],
+        ["xpath=//li[5]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Configuración')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "109a273d-05cd-4c8b-b167-fdede1e160fd",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["9d5684d0-dae5-4b1c-a853-dd9c9f3152cd"]
+  }],
+  "urls": ["https://ficheck.vercel.app/"],
+  "plugins": []
+}
+
+RESULTADO: EXITOSO
 
