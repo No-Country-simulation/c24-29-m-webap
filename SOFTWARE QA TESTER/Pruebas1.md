@@ -29,11 +29,4 @@ La prueba de inicio de sesión se completó satisfactoriamente. El sistema permi
 
 El proceso de inicio de sesión en el área de cliente funciona correctamente. La prueba con Selenium IDE ha validado la funcionalidad básica, asegurando que los usuarios pueden acceder a sus cuentas sin problemas.
 
-## Próximos Pasos
-
-* Realizar pruebas adicionales para cubrir casos de error y escenarios más complejos (ej. contraseñas incorrectas, usuarios no registrados).
-* Considerar la implementación de pruebas automatizadas más robustas utilizando un framework de testing como Selenium WebDriver o Cypress.
-* Documentar los casos de prueba detalladamente para futuras referencias.
-
----
 
