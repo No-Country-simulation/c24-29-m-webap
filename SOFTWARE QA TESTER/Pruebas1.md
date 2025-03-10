@@ -2,7 +2,7 @@
 ---
 Pruebas de Inicio de Sesión
 ---
-Area de Cliente
+Área de Cliente
 ---
 **SELENIUM IDE**
 
