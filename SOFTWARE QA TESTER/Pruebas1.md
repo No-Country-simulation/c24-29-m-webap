@@ -37,21 +37,3 @@ El proceso de inicio de sesión en el área de cliente funciona correctamente. L
 
 ---
 
-**Nota:** Este documento se actualizó por última vez el \[Fecha de hoy].
-
-Explicación de la estructura:
- * Encabezado principal: Indica el propósito del documento.
- * URL: Muestra la URL que se probó.
- * Resumen: Ofrece una breve descripción del contenido.
- * Metodología: Detalla las herramientas y el enfoque utilizados.
- * Resultado de la Prueba: Presenta el resultado principal de forma clara y concisa.
- * Detalles: Proporciona información adicional sobre la prueba.
- * Evidencia: Incluye la captura de pantalla como prueba visual.
- * Conclusiones: Resume los hallazgos y su significado.
- * Próximos Pasos: Sugiere acciones futuras para mejorar las pruebas.
- * Nota: Incluye la fecha de la última actualización.
-Recomendaciones adicionales:
- * Si tienes más pruebas o escenarios, puedes agregarlos siguiendo la misma estructura.
- * Considera usar tablas para organizar datos más complejos.
- * Si vas a realizar más pruebas, te recomiendo que uses un framework de testing, como Selenium WebDriver, o Cypress, ya que Selenium IDE es solo para pruebas sencillas, y realizar pruebas de regresión.
-Espero que esta estructura te sea útil. ¡No dudes en preguntar si tienes alguna otra duda!
