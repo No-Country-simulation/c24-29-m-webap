@@ -7,9 +7,6 @@ Este documento contiene los **casos de prueba** para evaluar el proceso de **log
 La información está organizada en formato de tabla en el siguiente enlace:  
 [**Acceder al archivo**]
 
-
-https://docs.google.com/spreadsheets/d/1XTzmTqfB8trvMWQ3mGTlvezRlrLXd_mtghAVil1V6Ao/edit?usp=sharing
-
 ### Objetivo:
 Verificar que el sistema permite a los usuarios iniciar sesión de manera exitosa mediante la correcta validación de credenciales.
 
