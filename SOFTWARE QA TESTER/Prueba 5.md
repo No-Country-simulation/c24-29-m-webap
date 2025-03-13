@@ -15,7 +15,7 @@ Se realizaron pruebas para verificar el correcto funcionamiento de los endpoints
 - **Body (JSON Ejemplo):**
   ```json
   {
-    "email": "usuario@example.com",
+    "usuario": "narabelen",
     "password": "123456"
   }
   ```
@@ -25,8 +25,8 @@ Se realizaron pruebas para verificar el correcto funcionamiento de los endpoints
     "token": "eyJhbGciOiJI...",
     "user": {
       "id": 1,
-      "name": "Usuario Ejemplo",
-      "email": "usuario@example.com"
+      "name": "nara avila ",
+      "usuario": "narabelen"
     }
   }
   ```
