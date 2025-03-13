@@ -37,7 +37,7 @@ public class OrganizacionController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Map<String, String>> regOrganizacion(@RequestBody @Valid DtoRegOrg registrar) {
+    public ResponseEntity<Map<String, String>> regOrganizacion( @RequestHeader("Authorization") String token, @RequestBody @Valid DtoRegOrg registrar) {
         try {
             Organizacion organizacion = organizacionService.regOrg(registrar);
             return ResponseEntity.status(HttpStatus.CREATED)

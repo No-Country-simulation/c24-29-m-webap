@@ -38,7 +38,7 @@ public class ColaboradorController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Map<String, String>> regColab(@RequestBody @Valid DtoRegColab regColab){
+    public ResponseEntity<Map<String, String>> regColab( @RequestHeader("Authorization") String token, @RequestBody @Valid DtoRegColab regColab){
         try {
             Colaboradores colaboradores = colaboradorService.regColaboradores(regColab);
             return ResponseEntity.status(HttpStatus.CREATED)
@@ -52,7 +52,7 @@ public class ColaboradorController {
         }
     }
     @PutMapping("/{id}/imagen")
-    public ResponseEntity<?> actualizarImagen(@PathVariable Long id, @RequestBody String imagen){
+    public ResponseEntity<?> actualizarImagen( @RequestHeader("Authorization") String token, @PathVariable Long id, @RequestBody String imagen){
         try {
             colaboradorService.actualizarImagen(id, imagen);
             return ResponseEntity.ok(Map.of("mensaje", "Imagen actualizada correctamente"));
@@ -64,6 +64,7 @@ public class ColaboradorController {
     @GetMapping("/{id}/asistencias")
     public ResponseEntity<?> getAsistencias(
             @PathVariable Long id,
+            @RequestHeader("Authorization") String token,
             @RequestParam(required = false) String periodo) {
         try {
             List<Asistencias> asistencias = asistenciaService.obtenerAsistencias(id, periodo);
@@ -76,6 +77,7 @@ public class ColaboradorController {
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizarDatosPersonales(
             @PathVariable Long id,
+            @RequestHeader("Authorization") String token,
             @RequestBody @Valid ActualizarColaboradorDTO dto) {
         try {
             Colaboradores colaborador = colaboradorService.actualizarDatosPersonales(id, dto);
@@ -103,6 +105,7 @@ public class ColaboradorController {
     public ResponseEntity<?> justificarInasistencia(
             @PathVariable Long id,
             @PathVariable Long asistenciaId,
+            @RequestHeader("Authorization") String token,
             @RequestBody @Valid JustificacionDTO dto) {
         try {
             asistenciaService.registrarJustificacion(asistenciaId, dto.justificacion());
