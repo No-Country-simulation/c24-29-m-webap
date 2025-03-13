@@ -1,6 +1,6 @@
 # Pruebas en Postman - Ficheck
 
-Este documento describe las pruebas realizadas en Postman sobre la API de Ficheck, disponible en [ficheck.vercel.app](https://ficheck.vercel.app/).
+Este documento describe las pruebas realizadas en Postman sobre la URL de Ficheck, disponible en [ficheck.vercel.app](https://ficheck.vercel.app/).
 
 - **Consulta de Fichajes**
   - **Método:** GET
