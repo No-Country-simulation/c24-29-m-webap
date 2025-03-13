@@ -1,12 +1,9 @@
 package com.no_country.fichaje.controller;
 
 import com.no_country.fichaje.ValidacionExeption;
+import com.no_country.fichaje.datos.dto.*;
 import com.no_country.fichaje.datos.model.Asistencias;
-import com.no_country.fichaje.datos.dto.JustificacionDTO;
-import com.no_country.fichaje.datos.dto.ActualizarColaboradorDTO;
-import com.no_country.fichaje.datos.dto.CambioEstadoDTO;
 import com.no_country.fichaje.datos.model.Colaboradores;
-import com.no_country.fichaje.datos.dto.DtoRegColab;
 import com.no_country.fichaje.infra.security.TokenService;
 import com.no_country.fichaje.service.AsistenciaService;
 import com.no_country.fichaje.service.ColaboradorService;
@@ -17,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
@@ -40,6 +38,7 @@ public class ColaboradorController {
     @Transactional
     public ResponseEntity<Map<String, String>> regColab( @RequestHeader("Authorization") String token, @RequestBody @Valid DtoRegColab regColab){
         try {
+            tokenService.validarToken(token);
             Colaboradores colaboradores = colaboradorService.regColaboradores(regColab);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(Map.of("mensaje", "Colaborador Registrado Exitosamente"));
@@ -52,13 +51,33 @@ public class ColaboradorController {
         }
     }
     @PutMapping("/{id}/imagen")
-    public ResponseEntity<?> actualizarImagen( @RequestHeader("Authorization") String token, @PathVariable Long id, @RequestBody String imagen){
+    public ResponseEntity<Map<String, Object>> actualizarImagen(
+            @RequestHeader("Authorization") String token,
+            @PathVariable Long id,
+            @RequestBody ImagenDto imagen) {
         try {
-            colaboradorService.actualizarImagen(id, imagen);
-            return ResponseEntity.ok(Map.of("mensaje", "Imagen actualizada correctamente"));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            // Validar el token (si aplica)
+            tokenService.validarToken(token);
+
+            // Llamada al servicio con el valor correcto
+            colaboradorService.actualizarImagen(id, imagen.imagen());
+
+            // Respuesta exitosa
+            return ResponseEntity.ok(Map.of(
+                    "mensaje", "Imagen actualizada correctamente",
+                    "idColaborador", id));
+        } catch (IllegalArgumentException e) {
+            // Datos inválidos o colaborador no encontrado
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(Map.of("error", e.getMessage()));
+        } catch (ResponseStatusException e) {
+            // Excepciones personalizadas del servicio
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(Map.of("error", e.getReason()));
+        } catch (Exception e) {
+            // Excepciones generales no esperadas
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Ha ocurrido un error inesperado"));
         }
     }
     @GetMapping("/{id}/asistencias")
@@ -67,6 +86,7 @@ public class ColaboradorController {
             @RequestHeader("Authorization") String token,
             @RequestParam(required = false) String periodo) {
         try {
+            tokenService.validarToken(token);
             List<Asistencias> asistencias = asistenciaService.obtenerAsistencias(id, periodo);
             return ResponseEntity.ok(asistencias);
         } catch (RuntimeException e) {
@@ -80,6 +100,7 @@ public class ColaboradorController {
             @RequestHeader("Authorization") String token,
             @RequestBody @Valid ActualizarColaboradorDTO dto) {
         try {
+            tokenService.validarToken(token);
             Colaboradores colaborador = colaboradorService.actualizarDatosPersonales(id, dto);
             return ResponseEntity.ok(colaborador);
         } catch (RuntimeException e) {
@@ -93,6 +114,7 @@ public class ColaboradorController {
             @RequestBody @Valid CambioEstadoDTO dto,
             @RequestHeader("Authorization") String token) {
         try {
+            tokenService.validarToken(token);
             Long usuarioId = tokenService.obtenerIdDesdeToken(token);
             Colaboradores colaborador = colaboradorService.actualizarEstado(id, dto.estado(), dto.razonBaja(), dto.fechaBaja());
             return ResponseEntity.ok(colaborador);
@@ -108,6 +130,7 @@ public class ColaboradorController {
             @RequestHeader("Authorization") String token,
             @RequestBody @Valid JustificacionDTO dto) {
         try {
+            tokenService.validarToken(token);
             asistenciaService.registrarJustificacion(asistenciaId, dto.justificacion());
             return ResponseEntity.ok(Map.of("mensaje", "Justificación registrada correctamente"));
         } catch (RuntimeException e) {

@@ -56,6 +56,7 @@ public class UsuarioController {
     @GetMapping()
     public ResponseEntity<?> verDatosUsuario(@RequestHeader ("Authorization") String token){
        try {
+           tokenService.validarToken(token);
            Long usuarioId = tokenService.obtenerIdDesdeToken(token);
            List<Organizacion> organizaciones = organizacionService.listarOrganizacionesPorUsuario(usuarioId);
            return ResponseEntity.ok(organizaciones);
@@ -66,8 +67,9 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUsuario(@PathVariable Long id){
+    public ResponseEntity<?> getUsuario(@RequestHeader("Authorization") String token,  @PathVariable Long id){
         try {
+            tokenService.validarToken(token);
             Usuario usuario = usuarioService.buscarPorId(id);
             return ResponseEntity.ok(usuario);
         } catch (RuntimeException e) {
@@ -76,8 +78,9 @@ public class UsuarioController {
         }
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?> actualizarUsuario(@PathVariable Long id, @RequestBody @Valid ActualizarUsuarioDTO dto){
+    public ResponseEntity<?> actualizarUsuario(@RequestHeader("Authorization") String token, @PathVariable Long id, @RequestBody @Valid ActualizarUsuarioDTO dto){
         try {
+            tokenService.validarToken(token);
             Usuario usuario = usuarioService.actualizarUsuario(id, dto);
             return ResponseEntity.ok(usuario);
         } catch (RuntimeException e) {
@@ -86,7 +89,8 @@ public class UsuarioController {
         }
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarUsuario(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminarUsuario(@PathVariable Long id, @RequestHeader("Authorization") String token ) {
+        tokenService.validarToken(token);
         usuarioService.eliminarUsuario(id);
         return ResponseEntity.noContent().build();
     }

@@ -15,6 +15,9 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
+import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 @Service
 public class TokenService{
@@ -66,5 +69,26 @@ private Instant generarFechaExpiracion() {
         return usuarioRepository.findByEmail(subject)
                 .map(Usuario::getId)
                 .orElseThrow(() -> new ValidacionExeption("Usuario no encontrado"));
+    }
+
+    public void validarToken(String token) {
+        try {
+            // Validar el token utilizando la clave secreta
+            Jwts.parserBuilder()
+                    .setSigningKey(apiSecret.getBytes()) // Convertimos la clave secreta en bytes
+                    .build()
+                    .parseClaimsJws(token); // Realiza la validación
+
+        } catch (ExpiredJwtException e) {
+            throw new IllegalArgumentException("El token ha expirado");
+        } catch (UnsupportedJwtException e) {
+            throw new IllegalArgumentException("El formato del token no es soportado");
+        } catch (MalformedJwtException e) {
+            throw new IllegalArgumentException("El token es inválido");
+        } catch (SignatureException e) {
+            throw new IllegalArgumentException("La firma del token es inválida");
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("El token está vacío o es nulo");
+        }
     }
 }
