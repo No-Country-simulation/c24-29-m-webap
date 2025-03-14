@@ -51,23 +51,24 @@ La aplicación se organiza en varios controladores y servicios que exponen la fu
   }
   '''
 
-### Valida el token de autenticación.
+### Valida el token de autenticación
 
 Identifica al colaborador mediante la imagen capturada y el ID de la organización.
 
 Registra la entrada o salida según el estado actual del colaborador.
 
-**GET '/asistencia/reporte'** 
+**GET '/asistencia/reporte'**
 Obtiene reportes estadísticos de asistencia de una organización en un período determinado.
 **Estructura de JSON esperada (ReporteAsistenciaDTO):**
-'''json
+
+```json
     {
       "organizacionId": 1,
       "periodo": "mes"
     }
-'''
+```
 
-**GET '/asistencia/{colaboradorId}/estadisticas'** 
+**GET '/asistencia/{colaboradorId}/estadisticas'**
    Proporciona estadísticas de asistencia específicas para un colaborador.
     Parámetro opcional: periodo (por defecto "mes").
 
@@ -76,111 +77,137 @@ Obtiene reportes estadísticos de asistencia de una organización en un período
 **POST '/usuario/login'**
     Realiza la autenticación del usuario utilizando correo y contraseña.
     Estructura de JSON esperada (LoginUsuarioDTO):
-'''json
+
+```json
 {
   "email": "[http://usuario@example.com](usuario@example.com)",
   "contrasena": "password"
 }
-'''
-    Se genera y retorna un token JWT (respuesta tipo LoginResponse):
-'''json
+```
+
+Se genera y retorna un token JWT (respuesta tipo LoginResponse):
+
+```json
     {
       "token": "jwtTokenString..."
     }
-'''
+```
+
 ### 3. Controladores de Colaboradores y Usuarios
 
-## Registro de Colaborador.
-    Endpoint: 
+## Registro de Colaborador
+
+Endpoint:
 **POST '(por ejemplo, /usuario/regColab)'**
-    Estructura de JSON esperada (DtoRegColab):
-'''
+
+Estructura de JSON esperada (DtoRegColab):
+
+```json
 {
   "nombre": "Ana García",
   "dni": 12345678,
   "direccion": "Avenida Siempre Viva 742",
   "codigoPostal": "54321",
   "telefono": "5559876543",
-  "correoElectronico": "ana.garcia@example.com",
+  "correoElectronico": "[http://ana.garcia@example.com](ana.garcia@example.com)",
   "fechaAlta": "2025-01-15",
   "estado": "ACTIVO",
   "organizacionId": 1,
   "cargo": "Desarrolladora",
   "frente": "base64EncodedImage..."
 }
-'''
+```
+
 ## Actualizar Imagen del Colaborador
-Endpoint: 
+
+Endpoint:
 **PUT /usuario/{id}/imagen**
 Estructura de JSON esperada (ImagenDto):
-'''
+
+```json
 {
   "imagen": "base64EncodedImage..."
 }
-'''
+```
+
 ## Actualizar Datos Personales del Colaborador
-Endpoint: 
+
+Endpoint:
 **PUT (por ejemplo, /usuario/{id})**
 Estructura de JSON esperada (ActualizarColaboradorDTO):
-'''
+
+```json
 {
   "nombre": "Juan Pérez",
   "direccion": "Calle 123",
   "codigoPostal": "12345",
   "telefono": "5551234567",
-  "correoElectronico": "juan.perez@example.com"
+  "correoElectronico": "[http://juan.perez@example.com](juan.perez@example.com)"
 }
 '''
+
 ## Actualizar Datos del Usuario
-Endpoint: 
+
+Endpoint:
 **PUT /usuario/{id}**
 Estructura de JSON esperada (ActualizarUsuarioDTO):
-'''
+
+```json
 {
   "nombre": "Usuario Actualizado",
   "contrasena": "nuevaContrasena123"
 }
-'''
+```
+
 ## Cambio de Estado del Colaborador
-Endpoint: 
+
+Endpoint:
 **PUT /usuario/{id}/estado**
 Estructura de JSON esperada (CambioEstadoDTO):
-'''
+
+```json
 {
   "estado": "INACTIVO",
   "razonBaja": "Renuncia voluntaria",
   "fechaBaja": "2025-03-01"
 }
-'''
+```
+
 ## Justificación de Inasistencia
-Endpoint: 
+
+Endpoint:
 **POST /usuario/{id}/justificar/{asistenciaId}**
 Estructura de JSON esperada (JustificacionDTO):
-'''
+
+```json
 {
   "justificacion": "Motivo justificación: Ausencia por enfermedad"
 }
-'''
+```
+
 ## Registro de Usuario
-Endpoint: 
+
+Endpoint:
 **POST /usuario**
 Estructura de JSON esperada (RegistroUsuarioDTO):
 
-'''
+```json
     {
       "nombre": "Usuario Nuevo",
-      "email": "nuevo@ejemplo.com",
+      "email": "[http://nuevo@ejemplo.com](nuevo@ejemplo.com)",
       "contrasena": "contraseñaSegura123"
     }
-'''
+```
 
 ### 4. OrganizacionController
 
 ## Registro de Organización
-Endpoint: 
+
+Endpoint:
 **POST /organizacion**
 Estructura de JSON esperada (DtoRegOrg):
-'''
+
+```json
     {
       "nombre": "Organización XYZ",
       "numeroRegistro": 101,
@@ -188,85 +215,102 @@ Estructura de JSON esperada (DtoRegOrg):
       "rubro": "Tecnología",
       "usuarioId": 1
     }
-'''
+```
+
 ## Listado de Colaboradores de una Organización
-Endpoint: 
+
+Endpoint:
 **GET /organizacion/{id}/colaboradores**
 
 ## Obtener Estadísticas de Asistencia de la Organización
-Endpoint: 
+
+Endpoint:
 **GET /organizacion/{id}/estadisticas**
 Se puede enviar el parámetro opcional periodo (por ejemplo, "mes").
 
 ## Obtener ID de Organización por Número de Registro
-Endpoint: 
+
+Endpoint:
 **GET /organizacion/organizaciones/buscar**
 Parámetro de query: numeroRegistro
 
 ## Eliminar Organización
-Endpoint: 
+
+Endpoint:
 **DELETE /organizacion/organizaciones/{id}**
 
 ### 5. QrController
 
 ## Generación de Código QR
-Endpoint: 
+
+Endpoint:
 **GET /qr/generate**
 Parámetro requerido: organizacionId (en la URL)
 Retorna una imagen en formato PNG que contiene una URL con el parámetro organizacionId para el registro de asistencia.
 
 Estructura de JSON Esperada (Resumen de DTOs)
 
-AsistenciaDTO:
-'''
+**AsistenciaDTO:**
+
+```json
 {
   "organizacionId": 1,
   "imagenCapturada": "base64EncodedImage..."
 }
-'''
-ActualizarColaboradorDTO:
-'''
+```
+
+**ActualizarColaboradorDTO:**
+
+```json
 {
   "nombre": "Juan Pérez",
   "direccion": "Calle 123",
   "codigoPostal": "12345",
   "telefono": "5551234567",
-  "correoElectronico": "juan.perez@example.com"
+  "correoElectronico": "[http://juan.perez@example.com](juan.perez@example.com)"
 }
-'''
-ActualizarUsuarioDTO:
-'''
+```
+
+**ActualizarUsuarioDTO:**
+
+```json
 {
   "nombre": "Usuario Actualizado",
   "contrasena": "nuevaContrasena123"
 }
-'''
-CambioEstadoDTO:
-'''
+```
+
+**CambioEstadoDTO:**
+
+```json
 {
   "estado": "INACTIVO",
   "razonBaja": "Renuncia voluntaria",
   "fechaBaja": "2025-03-01"
 }
-'''
+```
+
 DtoRegColab:
-'''
+
+```json
 {
   "nombre": "Ana García",
   "dni": 12345678,
   "direccion": "Avenida Siempre Viva 742",
   "codigoPostal": "54321",
   "telefono": "5559876543",
-  "correoElectronico": "ana.garcia@example.com",
+  "correoElectronico": "[http://ana.garcia@example.com](ana.garcia@example.com)",
   "fechaAlta": "2025-01-15",
   "estado": "ACTIVO",
   "organizacionId": 1,
   "cargo": "Desarrolladora",
   "frente": "base64EncodedImage..."
 }
-'''
-DtoRegOrg:
-'''
+```
+
+**DtoRegOrg:**
+
+```json
 {
   "nombre": "Organización XYZ",
   "numeroRegistro": 101,
@@ -274,54 +318,69 @@ DtoRegOrg:
   "rubro": "Tecnología",
   "usuarioId": 1
 }
-'''
-EstadisticasDTO:
-'''
+```
+
+**EstadisticasDTO:**
+
+```json
 {
   "periodo": "mes",
   "organizacionId": 1
 }
-'''
-ImagenDto:
-'''
+```
+
+**ImagenDto:**
+
+```json
 {
   "imagen": "base64EncodedImage..."
 }
-'''
-JustificacionDTO:
-'''
+```
+
+**JustificacionDTO:**
+
+```json
 {
   "justificacion": "Motivo justificación: Ausencia por enfermedad"
 }
-'''
-LoginUsuarioDTO:
-'''
+```
+
+**LoginUsuarioDTO:**
+
+```json
 {
-  "email": "usuario@example.com",
+  "email": "[http://usuario@example.com](usuario@example.com)",
   "contrasena": "password"
 }
-'''
-RegistroUsuarioDTO:
-'''
+```
+
+**RegistroUsuarioDTO:**
+
+```json
 {
   "nombre": "Usuario Nuevo",
-  "email": "nuevo@ejemplo.com",
+  "email": "[http://nuevo@ejemplo.com](nuevo@ejemplo.com)",
   "contrasena": "contraseñaSegura123"
 }
-'''
-ReporteAsistenciaDTO:
-'''
+```
+
+**ReporteAsistenciaDTO:**
+
+```json
 {
   "organizacionId": 1,
   "periodo": "mes"
 }
-'''
-LoginResponse (Respuesta del login):
-'''
+```
+
+**LoginResponse (Respuesta del login):**
+
+```json
     {
       "token": "jwtTokenString..."
     }
-'''
+```
+
 ### Seguridad
 
 La aplicación utiliza JWT para asegurar los endpoints. Cada petición que modifique o consulte datos sensibles requiere incluir el token en el header "Authorization". El TokenService se encarga de validar el token y extraer la información del usuario.
@@ -335,60 +394,75 @@ Prerrequisitos
 ## Pasos para Ejecutar
 
 **Clonar el repositorio:**
-'''
-git clone https://github.com/tu-usuario/fichaje.git
+
+git clone [https://github.com/tu-usuario/fichaje.git](https://github.com/tu-usuario/fichaje.git)
 cd fichaje
-'''
-Construir el proyecto:
-'''
+
+**Construir el proyecto:**
+
+```cmd
 mvn clean install
-'''
-Ejecutar la aplicación:
-'''
+```
+
+**Ejecutar la aplicación:**
+
+```cmd
     mvn spring-boot:run
-'''
+```
+
 **Acceso a los Endpoints:**
-    Utiliza herramientas como Postman o cURL para realizar peticiones a los distintos endpoints (por ejemplo, [http://localhost:8080/asistencia/login](http://localhost:8080/asistencia/login).
+    Utiliza herramientas como Postman o cURL para realizar peticiones a los distintos endpoints por ejemplo, [http://localhost:8080/asistencia/login](http://localhost:8080/asistencia/login).
 
 Ejemplos de Uso
-Registro de Asistencia
-'''
-curl -X POST http://localhost:8080/asistencia/login \
+
+## Registro de Asistencia
+
+```json
+curl -X POST [http://localhost:8080/asistencia/login](http://localhost:8080/asistencia/login)
 -H "Content-Type: application/json" \
--H "Authorization: Bearer <TOKEN>" \
+-H "Authorization: Bearer <(TOKEN)>" \
 -d '{
   "organizacionId": 1,
   "imagenCapturada": "base64EncodedImage..."
 }'
-'''
-Autenticación de Usuario
-'''
-curl -X POST http://localhost:8080/usuario/login \
+```
+
+## Autenticación de Usuario
+
+```json
+curl -X POST "http://localhost:8080/usuario/login"
 -H "Content-Type: application/json" \
 -d '{
   "email": "usuario@example.com",
   "contrasena": "password"
 }'
-'''
-Generación de Código QR
-'''
+```
+
+***Generación de Código QR***
+
+```json
 curl -X GET "http://localhost:8080/qr/generate?organizacionId=1" \
 -H "Authorization: Bearer <TOKEN>" \
 --output qr.png
-'''
+```
+
 ### Consideraciones Adicionales
 
-## Manejo de Excepciones y Validaciones:
-Los controladores implementan un manejo de excepciones robusto para proporcionar mensajes de error claros en casos de datos inválidos, token expirado o errores internos.
-**Transaccionalidad:**
-    Se utiliza '@Transactional' en los métodos que realizan operaciones de escritura para garantizar la integridad de los datos.
+## Manejo de Excepciones y Validaciones
 
-## Documentación y Pruebas:
-    Se recomienda integrar herramientas como Swagger para documentar y probar de forma interactiva los endpoints.
+Los controladores implementan un manejo de excepciones robusto para proporcionar mensajes de error claros en casos de datos inválidos, token expirado o errores internos.
+
+**Transaccionalidad:**
+
+Se utiliza '@Transactional' en los métodos que realizan operaciones de escritura para garantizar la integridad de los datos.
+
+## Documentación y Pruebas
+
+Se recomienda integrar herramientas como Swagger para documentar y probar de forma interactiva los endpoints
 
 ## Contribuciones
 
 Las contribuciones son bienvenidas. Si deseas mejorar la aplicación o corregir errores, realiza un fork del repositorio y envía un pull request.
 Licencia
 
-Este proyecto se distribuye bajo la 'MIT' License.
+### Este proyecto se distribuye bajo la 'MIT' License
