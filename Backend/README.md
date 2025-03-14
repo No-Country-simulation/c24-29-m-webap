@@ -419,19 +419,19 @@ Ejemplos de Uso
 
 ## Registro de Asistencia
 
-```json
+```bash
 curl -X POST http://localhost:8080/asistencia/login \
 -H "Content-Type: application/json" \
--H "Authorization: Bearer <(TOKEN)>" \
+-H "Authorization: Bearer (TOKEN)" \
 -d '{
-  "organizacionId": 1,
-  "imagenCapturada": "base64EncodedImage..."
+    "organizationId": 1,
+    "imagenCapturada": "base64EncodedImage..."
 }'
 ```
 
 ## Autenticación de Usuario
 
-```json
+```bash
 curl -X POST "http://localhost:8080/usuario/login" \
 -H "Content-Type: application/json" \
 -d '{
@@ -442,7 +442,7 @@ curl -X POST "http://localhost:8080/usuario/login" \
 
 ***Generación de Código QR***
 
-```json
+```bash
 curl -X GET "http://localhost:8080/qr/generate?organizacionId=1" \
 -H "Authorization: Bearer <TOKEN>" \
 --output qr.png
