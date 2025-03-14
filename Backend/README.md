@@ -49,7 +49,7 @@ La aplicación se organiza en varios controladores y servicios que exponen la fu
     "organizacionId": 1,
     "imagenCapturada": "base64EncodedImage..."
   }
-  '''
+  ```
 
 ### Valida el token de autenticación
 
@@ -144,7 +144,7 @@ Estructura de JSON esperada (ActualizarColaboradorDTO):
   "telefono": "5551234567",
   "correoElectronico": "[http://juan.perez@example.com](juan.perez@example.com)"
 }
-'''
+```
 
 ## Actualizar Datos del Usuario
 
@@ -391,22 +391,24 @@ Prerrequisitos
 - Maven o Gradle (según la configuración del proyecto)
 - Base de datos: Configurada en el archivo de propiedades de Spring Boot (por ejemplo, MySQL o PostgreSQL).
 
-## Pasos para Ejecutar
+### Pasos para Ejecutar
 
 **Clonar el repositorio:**
 
-git clone [https://github.com/tu-usuario/fichaje.git](https://github.com/tu-usuario/fichaje.git)
+```bash
+git clone https://github.com/tu-usuario/fichaje.git
 cd fichaje
+```
 
 **Construir el proyecto:**
 
-```cmd
+```bash
 mvn clean install
 ```
 
 **Ejecutar la aplicación:**
 
-```cmd
+```bash
     mvn spring-boot:run
 ```
 
@@ -418,7 +420,7 @@ Ejemplos de Uso
 ## Registro de Asistencia
 
 ```json
-curl -X POST [http://localhost:8080/asistencia/login](http://localhost:8080/asistencia/login)
+curl -X POST http://localhost:8080/asistencia/login \
 -H "Content-Type: application/json" \
 -H "Authorization: Bearer <(TOKEN)>" \
 -d '{
@@ -430,7 +432,7 @@ curl -X POST [http://localhost:8080/asistencia/login](http://localhost:8080/asis
 ## Autenticación de Usuario
 
 ```json
-curl -X POST "http://localhost:8080/usuario/login"
+curl -X POST "http://localhost:8080/usuario/login" \
 -H "Content-Type: application/json" \
 -d '{
   "email": "usuario@example.com",
