@@ -34,8 +34,9 @@ public class AsistenciaController {
 
     @PostMapping("/login")
     @Transactional
-    public ResponseEntity<Map<String, Object>> registrarAsistencia(@RequestBody AsistenciaDTO asistenciaDTO) {
+    public ResponseEntity<Map<String, Object>> registrarAsistencia(@RequestBody AsistenciaDTO asistenciaDTO, @RequestHeader("Authorization") String token) {
        try{
+           tokenService.validarToken(token);
         Optional<Colaboradores> colaboradorOpt = asistenciaService.reconocerColaborador(
                 asistenciaDTO.imagenCapturada(), asistenciaDTO.organizacionId());
 
@@ -65,6 +66,7 @@ public class AsistenciaController {
             @RequestBody ReporteAsistenciaDTO dto,
             @RequestHeader("Authorization") String token) {
         try {
+            tokenService.validarToken(token);
             Long usuarioId = tokenService.obtenerIdDesdeToken(token);
             List<Map<String, Object>> reporte = asistenciaService.obtenerEstadisticasPorOrganizacion(
                     dto.organizacionId(), dto.periodo());
@@ -74,10 +76,12 @@ public class AsistenciaController {
                     .body(Map.of("error", e.getMessage()));
         }
     }
+    @GetMapping("/{colaboradorId}/estadisticas")
     public ResponseEntity<Map<String, Object>> obtenerEstadisticasEmpleado(
             @PathVariable Long colaboradorId,
+            @RequestHeader("Authorization") String token,
             @RequestParam(required = false, defaultValue = "mes") String periodo) {
-
+        tokenService.validarToken(token);
         Map<String, Object> estadisticas = asistenciaService.obtenerEstadisticasPorColaborador(colaboradorId, periodo);
         return ResponseEntity.ok(estadisticas);
     }

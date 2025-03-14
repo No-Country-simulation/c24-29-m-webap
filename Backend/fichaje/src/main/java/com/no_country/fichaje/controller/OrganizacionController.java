@@ -39,6 +39,7 @@ public class OrganizacionController {
     @Transactional
     public ResponseEntity<Map<String, String>> regOrganizacion( @RequestHeader("Authorization") String token, @RequestBody @Valid DtoRegOrg registrar) {
         try {
+            tokenService.validarToken(token);
             Organizacion organizacion = organizacionService.regOrg(registrar);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(Map.of("mensaje", "Organización registrada exitosamente"));
@@ -54,6 +55,7 @@ public class OrganizacionController {
     @GetMapping("/{id}/colaboradores")
     public ResponseEntity<?> listarColaboradores(@PathVariable Long id, @RequestHeader("Authorization") String token) {
         try {
+            tokenService.validarToken(token);
             Long usuarioId = tokenService.obtenerIdDesdeToken(token);
             List<Colaboradores> colaboradores = colaboradorService.listarPorOrganizacion(id);
             return ResponseEntity.ok(colaboradores);
@@ -69,6 +71,7 @@ public class OrganizacionController {
             @RequestParam(required = false, defaultValue = "mes") String periodo,
             @RequestHeader("Authorization") String token) {
         try {
+            tokenService.validarToken(token);
             Long usuarioId = tokenService.obtenerIdDesdeToken(token);
             List<Map<String, Object>> estadisticas = asistenciaService.obtenerEstadisticasPorOrganizacion(id, periodo);
             return ResponseEntity.ok(estadisticas);
@@ -78,12 +81,14 @@ public class OrganizacionController {
         }
     }
     @DeleteMapping("/organizaciones/{id}")
-    public ResponseEntity<Void> eliminarOrganizacion(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminarOrganizacion(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+        tokenService.validarToken(token);
         organizacionService.eliminarOrganizacion(id);
         return ResponseEntity.noContent().build();
     }
     @GetMapping("/organizaciones/buscar")
-    public ResponseEntity<Long> obtenerIdPorNumeroRegistrado(@RequestParam Integer numeroRegistro) {
+    public ResponseEntity<Long> obtenerIdPorNumeroRegistrado(@RequestParam Integer numeroRegistro, @RequestHeader("Authorization") String token) {
+        tokenService.validarToken(token);
         Long id = organizacionService.obtenerIdPorNumeroRegistrado(numeroRegistro);
         return ResponseEntity.ok(id);
     }
