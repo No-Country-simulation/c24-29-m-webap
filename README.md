@@ -21,8 +21,6 @@
 
 ✔️Juan de Dios Goncalves Patrao / FIGMA / UX TOOLS / PAQUETE ADOBE.
 
-✔️Diego Minu Vargas / JAVA SPRINTBOOT / PHP / MySQL.
-
 ✔️Nara Belén Avila Luquez / QA TESTING MANUAL / TESTRIAL / POSTMAN / SUOP UI / JMETER.
 
 ## 📌 **Resumen del Proyecto**  
