@@ -468,3 +468,5 @@ Las contribuciones son bienvenidas. Si deseas mejorar la aplicación o corregir 
 Licencia
 
 ### Este proyecto se distribuye bajo la 'MIT' License
+
+## API desarrollada por Emanuel Peracchia 
